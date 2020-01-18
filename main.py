@@ -1,42 +1,33 @@
 import util
 import engine
 import ui
-
-PLAYER_ICON = '@'
-PLAYER_START_X = 3
-PLAYER_START_Y = 3
-
-BOARD_WIDTH = 30
-BOARD_HEIGHT = 20
-
-
-def create_player():
-    '''
-    Creates a 'player' dictionary for storing all player related informations - i.e. player icon, player position.
-    Fell free to extend this dictionary!
-
-    Returns:
-    dictionary
-    '''
-    pass
+import game
 
 
 def main():
-    player = create_player()
-    board = engine.create_board(BOARD_WIDTH, BOARD_HEIGHT)
-
-    util.clear_screen()
     is_running = True
-    while is_running:
-        engine.put_player_on_board(board, player)
-        ui.display_board(board)
+    board_created = False
 
-        key = util.key_pressed()
-        if key == 'q':
-            is_running = False
-        else:
-            pass
-        util.clear_screen()
+    while not board_created:
+        try:
+            engine = game.Game()
+            board_created = True
+        except TypeError:
+            print("Enter a number!")
+
+    engine.board.display_board()
+
+    while is_running:
+        player_move = util.key_pressed()
+        if player_move in ["w", "s", "a", "d"]:
+            try:
+                engine.board.move_player(player_move)
+                util.clear_screen()
+                engine.board.display_board()
+            except:
+                util.clear_screen()
+                engine.board.display_board()
+                print("You can't move on wall!")
 
 
 if __name__ == '__main__':
