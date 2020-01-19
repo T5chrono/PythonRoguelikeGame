@@ -88,6 +88,12 @@ class Board():
     def check_if_monster(self, new_index):
         is_monster = (self.tiles[new_index[0]][new_index[1]].tile_type == "MONSTER")
         return is_monster
+
+    def check_if_item(self, new_index):
+        return self.tiles[new_index[0]][new_index[1]].tile_type == "ITEM"
+
+    # def check_if_item(self):
+    #     return self.tiles[self.player_tile_position[0]][self.player_tile_position[1]].tile_type == "ITEM"
         
     def get_new_index_of_position(self, direction):
         index = self.player_tile_position.copy()

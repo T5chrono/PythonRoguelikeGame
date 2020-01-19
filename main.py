@@ -2,6 +2,7 @@ import util
 import engine
 import ui
 import game
+import board
 
 
 def main():
