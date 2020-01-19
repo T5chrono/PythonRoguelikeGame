@@ -27,7 +27,7 @@ class Game():
                     print("Monster here!")
                 elif self.board.check_if_item(new_position):
                     self.move(new_position)
-                    print("There is something here.")
+                    print("There is something here. Do you want to pick it up? (press \"p\")")
                 else:
                     self.move(new_position)
 
@@ -35,11 +35,6 @@ class Game():
             util.clear_screen()
             self.board.display_board()
             print("You can't move on wall!")
-
-    def handle_item(self):
-        if self.board.check_if_item():
-            print("There is something here")
-
 
     def move(self, new_position):
         self.board.move_player(new_position)
