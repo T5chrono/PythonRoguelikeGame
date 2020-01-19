@@ -20,14 +20,9 @@ def main():
     while is_running:
         player_move = util.key_pressed()
         if player_move in ["w", "s", "a", "d"]:
-            try:
-                engine.board.move_player(player_move)
-                util.clear_screen()
-                engine.board.display_board()
-            except:
-                util.clear_screen()
-                engine.board.display_board()
-                print("You can't move on wall!")
+            engine.handle_movement_effects(player_move)
+        elif player_move == "q":
+            is_running = False
 
 
 if __name__ == '__main__':

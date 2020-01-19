@@ -1,4 +1,5 @@
-import board 
+import board
+import util
 
 class Game():
 
@@ -17,4 +18,26 @@ class Game():
                 raise TypeError("Enter a number!")
 
         return dimension_size
+
+    def handle_movement_effects(self, player_move):
+        try:
+            new_position = self.board.get_new_index_of_position(player_move)
+            if self.board.check_if_valid_move(new_position):
+                if self.board.check_if_monster(new_position):
+                    print("Monster here!")
+                else:
+                    self.move(new_position)
+
+        except IndexError:
+            util.clear_screen()
+            self.board.display_board()
+            print("You can't move on wall!")
+
+
+    def move(self, new_position):
+        self.board.move_player(new_position)
+        util.clear_screen()
+        self.board.display_board()
+
+
 

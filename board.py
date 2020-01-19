@@ -80,15 +80,19 @@ class Board():
         return index
 
 
-    def move_player(self, direction):
+    def move_player(self, new_index):
+        self.tiles[self.player_tile_position[0]][self.player_tile_position[1]].is_player = False
+        self.tiles[new_index[0]][new_index[1]].is_player = True
+        self.player_tile_position = new_index
+
+    def check_if_monster(self, new_index):
+        is_monster = (self.tiles[new_index[0]][new_index[1]].tile_type == "MONSTER")
+        return is_monster
+        
+    def get_new_index_of_position(self, direction):
         index = self.player_tile_position.copy()
         new_index = Board.get_tile_index_to_move(self, direction, index)
-        is_valid = Board.check_if_valid_move(self, new_index)
-
-        if is_valid:
-            self.tiles[self.player_tile_position[0]][self.player_tile_position[1]].is_player = False
-            self.tiles[new_index[0]][new_index[1]].is_player = True
-            self.player_tile_position = new_index
+        return new_index
 
     def check_if_valid_move(self, new_index):
         is_valid = False
@@ -199,15 +203,6 @@ def split_file_into_list(file):
             temp_list.append(letter)
         chracters_list.append(temp_list)
     return chracters_list
-
-
-
-
-if __name__ == "__main__":
-    board = Board(4,5)
-    board.display_board()
-    board.move_player("w")
-    board.display_board()
 
 
 
