@@ -1,5 +1,5 @@
 class Character:
-
+    
     def __init__(self, name):
         self.max_hp = 10
         self.current_hp = 10
@@ -11,6 +11,8 @@ class Character:
         self.name = name
         self.attack = 1
         self.armor = 0
+        self.speed = 7
+        self.dodge_chance = 1
 
 
 # Keanu initialize:

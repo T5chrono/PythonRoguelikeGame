@@ -1,10 +1,14 @@
 import board
 import util
+import battle
+import character
 
 class Game():
 
     def __init__(self):
+        self.is_running = True
         self.board = board.Board(Game.initialize_board(self, "height"), Game.initialize_board(self, "width"))
+        self.player_character = character.Character("Keanu")
 
     def initialize_board(self, dimension):
 
@@ -24,7 +28,14 @@ class Game():
             new_position = self.board.get_new_index_of_position(player_move)
             if self.board.check_if_valid_move(new_position):
                 if self.board.check_if_monster(new_position):
-                    print("Monster here!")
+                    fight = battle.Battle(self.player_character)
+                    print("You meet {}". format(fight.monster.name))
+                    is_figthing = True
+                    while is_figthing:
+                        is_fighting = fight.handle_fight_round()
+                        
+                    self.is_running = (self.player_character.current_hp > 0)
+
                 elif self.board.check_if_item(new_position):
                     self.move(new_position)
                     print("There is something here. Do you want to pick it up? (press \"p\")")
