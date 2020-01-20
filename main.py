@@ -23,6 +23,8 @@ def main():
         player_move = util.key_pressed()
         if player_move in ["w", "s", "a", "d"]:
             engine.handle_movement_effects(player_move)
+        elif player_move == "i":
+            inventory.print_table(character.Keanu.inventory)
         elif player_move == "p":
             inventory.add_to_inventory(character.Keanu.inventory, ["some item to implement"])
         elif player_move == "q":

@@ -6,7 +6,7 @@ class Character:
         self.level = 1
         self.character_class = "Bug Slayer"
         self.race = "Android"
-        self.inventory = {}
+        self.inventory = {'Sword': 1, 'Armor': 1}
         self.current_experience = 0
         self.name = name
         self.attack = 1

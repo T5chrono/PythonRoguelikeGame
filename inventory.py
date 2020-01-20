@@ -11,8 +11,51 @@ def add_to_inventory(inventory, added_items):
     return inventory
 
 
+def print_table(inventory, order='empty'):
+    """
+    Display the contents of the inventory in an ordered, well-organized table with
+    each column right-aligned.
+    """
+    column_widths = calculate_column_widths(inventory)
+    inventory = sort_dictionary(inventory, order)
+
+    print_line(column_widths)
+    print('item name'.rjust(column_widths[0]) + ' | ' + 'count'.rjust(column_widths[1]))
+    print_line(column_widths)
+    for item in inventory:
+        print(item.rjust(column_widths[0]) + ' | ' + str(inventory[item]).rjust(column_widths[1]))
+    print_line(column_widths)
+
+
+# ----- Helper functions for print_table START-----
+def calculate_column_widths(inventory):
+    """ Calculates the perfect widths of columns for printing purposes. """
+    inventory.update({'item name': 'count'})
+    key_lengths = [len(key) for key in inventory.keys()]
+    value_lengths = [len(str(value)) for value in inventory.values()]
+    column_widths = [max(key_lengths), max(value_lengths)]
+    del inventory['item name']
+    return column_widths
+
+
+def sort_dictionary(inventory, order):
+    """ Sorts the dictionary in a given order. """
+    if order == 'count,asc':
+        inventory = {k: v for k, v in sorted(inventory.items(), key=lambda inv_item: inv_item[1])}
+    elif order == 'count,desc':
+        inventory = {k: v for k, v in sorted(inventory.items(), key=lambda inv_item: inv_item[1], reverse=True)}
+    return inventory
+
+
+def print_line(column_widths):
+    """ Prints straight line which length corresponds to column widths. """
+    print("-" * (sum(column_widths) + len(column_widths) + 1))
+# ----- Helper functions for print_table END -----
+
+
 def main():
     print(character.Keanu.inventory)
+    print_table(character.Keanu.inventory)
 
 
 if __name__ == "__main__":
