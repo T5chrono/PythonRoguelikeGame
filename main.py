@@ -32,6 +32,7 @@ def main():
         elif player_move == "p":
             if engine.board.tiles[engine.board.player_tile_position[0]][engine.board.player_tile_position[1]].tile_type == "ITEM":
                 add_to_inventory(engine.player_character.inventory, random_item(ITEMS))
+                engine.board.tiles[engine.board.player_tile_position[0]][engine.board.player_tile_position[1]].tile_type = "EMPTY"
             else:
                 print("There is nothing here.")
         elif player_move == "q":
