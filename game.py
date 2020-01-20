@@ -32,8 +32,8 @@ class Game():
                     print("You meet {}". format(fight.monster.name))
                     is_figthing = True
                     while is_figthing:
-                        is_fighting = fight.handle_fight_round()
-                        
+                        is_figthing = fight.handle_fight_round()
+
                     self.is_running = (self.player_character.current_hp > 0)
 
                 elif self.board.check_if_item(new_position):

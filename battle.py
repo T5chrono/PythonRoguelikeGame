@@ -9,6 +9,7 @@ class Battle():
         self.character_initiative = 0
         self.player_character = player_character
         self.monster = self.get_random_monster()
+        self.monster_hp = self.monster.current_hp
 
     def get_random_monster(self):
         random_monster = random.choice(monster.MonsterPool.monsters)
@@ -26,16 +27,18 @@ class Battle():
             self.player_character.current_hp -= monster_damage
             print("{} inflicted {} damage. {} has {} HP left".format(self.monster.name, monster_damage, self.player_character.name, self.player_character.current_hp))
             self.character_initiative += self.player_character.speed
-            return self.check_if_player_alive()
+            player_alive = self.check_if_player_alive()
+            return player_alive
 
         elif self.monster_initiative <= self.character_initiative:
             print("Your turn! You want to run (r) ot attack (a)?")
             player_choice = util.key_pressed()
             player_damage = self.calculate_damage(self.player_character.attack, self.monster.armor)
-            self.monster.current_hp -= player_damage
-            print("{} inflicted {} damage. {} has {} HP left".format(self.player_character.name, player_damage, self.monster.name, self.monster.current_hp))
+            self.monster_hp -= player_damage
+            print("{} inflicted {} damage. {} has {} HP left".format(self.player_character.name, player_damage, self.monster.name, self.monster_hp))
             self.monster_initiative += self.monster.speed
-            return self.check_if_monster_alive
+            monster_alive = self.check_if_monster_alive()
+            return monster_alive
 
 
     def check_if_player_alive(self):
@@ -46,7 +49,7 @@ class Battle():
             return False
 
     def check_if_monster_alive(self):
-        if self.monster.current_hp > 0:
+        if self.monster_hp > 0:
             return True
         else:
             print("Your character killed {} and gained {} EXP!".format(self.monster.name, self.monster.defeat_exp))
