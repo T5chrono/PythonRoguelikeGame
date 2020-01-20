@@ -92,6 +92,10 @@ class Board():
     def check_if_item(self, new_index):
         return self.tiles[new_index[0]][new_index[1]].tile_type == "ITEM"
 
+    def make_tile_empty(self, index):
+        self.tiles[index[0]][index[1]].tile_type = TileTypes.EMPTY.name
+
+
     # def check_if_item(self):
     #     return self.tiles[self.player_tile_position[0]][self.player_tile_position[1]].tile_type == "ITEM"
         

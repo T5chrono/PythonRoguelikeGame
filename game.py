@@ -28,17 +28,12 @@ class Game():
             new_position = self.board.get_new_index_of_position(player_move)
             if self.board.check_if_valid_move(new_position):
                 if self.board.check_if_monster(new_position):
-                    fight = battle.Battle(self.player_character)
-                    print("You meet {}". format(fight.monster.name))
-                    is_figthing = True
-                    while is_figthing:
-                        is_figthing = fight.handle_fight_round()
-
-                    self.is_running = (self.player_character.current_hp > 0)
+                    self.handle_entire_battle(new_position)
 
                 elif self.board.check_if_item(new_position):
                     self.move(new_position)
                     print("There is something here. Do you want to pick it up? (press \"p\")")
+
                 else:
                     self.move(new_position)
 
@@ -51,6 +46,23 @@ class Game():
         self.board.move_player(new_position)
         util.clear_screen()
         self.board.display_board()
+
+    def handle_entire_battle(self, new_position):
+        fight = battle.Battle(self.player_character)
+        print("You meet {}". format(fight.monster.name))
+        is_figthing = True
+        while is_figthing:
+            is_figthing = fight.handle_fight_round()
+            self.is_running = (self.player_character.current_hp > 0)
+
+            if fight.monster_hp < 1:
+                print("Press any key to continue")
+                util.key_pressed()
+                util.clear_screen()
+                self.board.make_tile_empty(new_position)
+                self.board.display_board()
+
+
 
 
 

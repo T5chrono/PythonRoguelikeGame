@@ -13,25 +13,25 @@ class Character:
         self.strength = 1
         self.dexterity = 1
         self.intelligence = 1
-        # ADVANCED STATS
-        self.speed = self.dexterity * 7
-        self.dodge_chance = int(self.dexterity - self.armor // 2)
         # HP AND MANA
         self.max_hp = 10
         self.current_hp = 10
         self.max_mana = 10
         self.current_mana = 10
         # ATTACK
-        self.attack = self.strength + self.left_arm_weapon + self.right_arm_weapon
         self.left_arm_weapon = 0
         self.right_arm_weapon = 0
+        self.attack = self.strength + self.left_arm_weapon + self.right_arm_weapon
         # DEFENCE
-        self.armor = self.head + self.torso + self.arms + self.legs + self.shield
         self.head = 0
         self.torso = 0
         self.arms = 0
         self.legs = 0
         self.shield = 0
+        self.armor = self.head + self.torso + self.arms + self.legs + self.shield
+        # ADVANCED STATS
+        self.speed = self.dexterity * 7
+        self.dodge_chance = int(self.dexterity - self.armor // 2)
 
     def __repr__(self):
         return f'Name: {self.name} ({self.race} the {self.character_class}) \n' \
