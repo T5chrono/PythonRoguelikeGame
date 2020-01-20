@@ -1,3 +1,5 @@
+import weapons_armor_items
+
 class Character:
 
     def __init__(self, name):
@@ -19,9 +21,8 @@ class Character:
         self.max_mana = 10
         self.current_mana = 10
         # ATTACK
-        self.left_arm_weapon = 0
-        self.right_arm_weapon = 0
-        self.attack = self.strength + self.left_arm_weapon + self.right_arm_weapon
+        self.weapon = weapons_armor_items.weapons[1]
+        self.attack = self.strength + self.weapon.attack
         # DEFENCE
         self.head = 0
         self.torso = 0
@@ -35,10 +36,16 @@ class Character:
 
     def __repr__(self):
         return f'Name: {self.name} ({self.race} the {self.character_class}) \n' \
-               f'HP: {self.current_hp} / {self.max_hp} \n' \
                f'EXP: {self.current_experience} -> Level {self.level} \n' \
-               f'Attack: {self.attack} \n' \
+               f'HP: {self.current_hp} / {self.max_hp} \n' \
+               f'MANA: {self.current_mana} / {self.max_mana} \n' \
+               f'Strength: {self.strength} \n' \
+               f'Dexterity: {self.dexterity} \n' \
+               f'Inteligence: {self.intelligence} \n' \
+               f'Attack: {self.attack} with {self.weapon.name}: {self.weapon.attack} \n' \
                f'Defense: {self.armor} \n' \
+               f'Total Attack: {self.attack} \n' \
+               f'Total Defense: {self.armor} \n' \
                f'Speed: {self.speed}'
 
 

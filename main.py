@@ -1,5 +1,6 @@
 import util
 import game
+import weapons_armor_items
 from inventory import print_table, add_to_inventory, random_item, ITEMS
 
 
@@ -27,6 +28,18 @@ def main():
             print_table(engine.player_character.inventory)
         elif player_move == "p":
             pick_up_something(engine)
+        elif player_move == "e":
+            # TODO complete equiping logic:
+            user_input = input("What would you like to equip?: ")
+            if user_input in weapons_armor_items.weapon_names:# and user_input in engine.player_character.inventory.keys():
+                for i in range(len(weapons_armor_items.weapon_names)):
+                    if user_input == weapons_armor_items.weapon_names[i]:
+                        add_to_inventory(engine.player_character.inventory, [engine.player_character.weapon.name])
+                        engine.player_character.weapon = weapons_armor_items.weapons[i]
+            elif user_input in weapons_armor_items.armor_names:
+                pass
+            else:
+                print(f"You cannot equip {user_input}.")
         elif player_move == "q":
             engine.is_running = False
 

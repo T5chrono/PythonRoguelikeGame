@@ -1,9 +1,10 @@
 import random
 
 import character
+from weapons_armor_items import weapon_names, armor_names, powerups_names
 
 
-ITEMS = ['Gold', 'Key', 'Sword', 'Healing potion', 'Stone', 'Rope']
+ITEMS = ['Gold', 'Key', 'Stone', 'Rope', "Leaf"] + weapon_names + armor_names + powerups_names
 
 
 def random_item(lst):
