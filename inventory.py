@@ -66,8 +66,9 @@ def print_line(column_widths):
 
 
 def main():
-    print(character.Keanu.inventory)
-    print_table(character.Keanu.inventory)
+    Keanu = character.Character("Keanu")
+    print(Keanu.inventory)
+    print_table(Keanu.inventory)
 
 
 if __name__ == "__main__":

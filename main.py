@@ -1,10 +1,6 @@
 import util
-import engine
-import ui
 import game
-import board
 from inventory import print_table, add_to_inventory, random_item, ITEMS
-import character
 
 
 def main():
@@ -26,19 +22,34 @@ def main():
         elif player_move == "c":
             print(engine.player_character)
         elif player_move == "h":
-            pass # prints help menu
+            display_help()
         elif player_move == "i":
             print_table(engine.player_character.inventory)
         elif player_move == "p":
-            if engine.board.tiles[engine.board.player_tile_position[0]][engine.board.player_tile_position[1]].tile_type == "ITEM":
-                add_to_inventory(engine.player_character.inventory, random_item(ITEMS))
-                engine.board.tiles[engine.board.player_tile_position[0]][engine.board.player_tile_position[1]].tile_type = "EMPTY"
-            else:
-                print("There is nothing here.")
+            pick_up_something(engine)
         elif player_move == "q":
             engine.is_running = False
 
 
+# Extracted methods from loop engine.is_running
+def pick_up_something(engine):
+    if engine.board.tiles[engine.board.player_tile_position[0]][
+                          engine.board.player_tile_position[1]].tile_type == "ITEM":
+        add_to_inventory(engine.player_character.inventory, random_item(ITEMS))
+        engine.board.tiles[engine.board.player_tile_position[0]][
+                           engine.board.player_tile_position[1]].tile_type = "EMPTY"
+    else:
+        print("There is nothing here.")
+
+
+def display_help():
+    print("This is what you can do:\n"
+          "move -> w / s / a / d\n"
+          "check your stats -> c\n"
+          "check you inventory -> i\n"
+          "pick up items -> p\n"
+          "quit the game -> q")
+
+
 if __name__ == '__main__':
     main()
-#engine.board.player_tile_position[0]
