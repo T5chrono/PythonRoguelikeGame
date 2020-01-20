@@ -32,14 +32,22 @@ class Battle():
 
         elif self.monster_initiative <= self.character_initiative:
             print("Your turn! You want to run (r) ot attack (a)?")
-            player_choice = util.key_pressed()
-            player_damage = self.calculate_damage(self.player_character.attack, self.monster.armor)
-            self.monster_hp -= player_damage
-            print("{} inflicted {} damage. {} has {} HP left".format(self.player_character.name, player_damage, self.monster.name, self.monster_hp))
-            self.monster_initiative += self.monster.speed
-            monster_alive = self.check_if_monster_alive()
-            return monster_alive
+            player_choice = ""
 
+            while player_choice not in ["r", "a"]:
+                player_choice = util.key_pressed()
+
+                if player_choice == "r":
+                    print("{} escaped safely from {}".format(self.player_character.name, self.monster.name))
+                    return False
+
+                else:
+                    player_damage = self.calculate_damage(self.player_character.attack, self.monster.armor)
+                    self.monster_hp -= player_damage
+                    print("{} inflicted {} damage. {} has {} HP left".format(self.player_character.name, player_damage, self.monster.name, self.monster_hp))
+                    self.monster_initiative += self.monster.speed
+                    monster_alive = self.check_if_monster_alive()
+                    return monster_alive
 
     def check_if_player_alive(self):
         if self.player_character.current_hp > 0:

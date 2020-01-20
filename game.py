@@ -51,16 +51,21 @@ class Game():
         fight = battle.Battle(self.player_character)
         print("You meet {}". format(fight.monster.name))
         is_figthing = True
+
         while is_figthing:
             is_figthing = fight.handle_fight_round()
             self.is_running = (self.player_character.current_hp > 0)
 
-            if fight.monster_hp < 1:
-                print("Press any key to continue")
-                util.key_pressed()
-                util.clear_screen()
-                self.board.make_tile_empty(new_position)
-                self.board.display_board()
+        if fight.monster_hp < 1:
+            self.board.make_tile_empty(new_position)
+        if self.is_running:
+            self.display_after_key_press()
+
+    def display_after_key_press(self):
+        print("Press any key to continue")
+        util.key_pressed()
+        util.clear_screen()
+        self.board.display_board()
 
 
 
