@@ -23,9 +23,15 @@ class Battle():
         self.character_initiative += self.player_character.speed
 
         if self.monster_initiative > self.character_initiative:
-            monster_damage = self.calculate_damage(self.monster.attack, self.player_character.armor)
-            self.player_character.current_hp -= monster_damage
-            print("{} inflicted {} damage. {} has {} HP left".format(self.monster.name, monster_damage, self.player_character.name, self.player_character.current_hp))
+            dodge_difficulty = random.randint(0,100)
+
+            if dodge_difficulty > self.player_character.dodge_chance:
+                monster_damage = self.calculate_damage(self.monster.attack, self.player_character.armor)
+                self.player_character.current_hp -= monster_damage
+                print("{} inflicted {} damage. {} has {} HP left".format(self.monster.name, monster_damage, self.player_character.name, self.player_character.current_hp))
+            else:
+                print("{} dodged the attack!".format(self.player_character.name))
+
             self.character_initiative += self.player_character.speed
             player_alive = self.check_if_player_alive()
             return player_alive
@@ -42,9 +48,14 @@ class Battle():
                     return False
 
                 else:
-                    player_damage = self.calculate_damage(self.player_character.attack, self.monster.armor)
-                    self.monster_hp -= player_damage
-                    print("{} inflicted {} damage. {} has {} HP left".format(self.player_character.name, player_damage, self.monster.name, self.monster_hp))
+                    dodge_difficulty = random.randint(0,100)
+                    if dodge_difficulty > self.monster.dodge_chance:
+                        player_damage = self.calculate_damage(self.player_character.attack, self.monster.armor)
+                        self.monster_hp -= player_damage
+                        print("{} inflicted {} damage. {} has {} HP left".format(self.player_character.name, player_damage, self.monster.name, self.monster_hp))
+                    else:
+                        print("{} dodged the attack".format(self.monster.name))
+
                     self.monster_initiative += self.monster.speed
                     monster_alive = self.check_if_monster_alive()
                     return monster_alive
