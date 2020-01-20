@@ -14,6 +14,22 @@ class Character:
         self.speed = 7
         self.dodge_chance = 1
 
+    def __repr__(self):
+        return f'Name: {self.name} ({self.race} the {self.character_class}) \n' \
+               f'HP: {self.current_hp} / {self.max_hp} \n' \
+               f'EXP: {self.current_experience} -> Level {self.level} \n' \
+               f'Attack: {self.attack} \n' \
+               f'Defense: {self.armor} \n' \
+               f'Speed: {self.speed}'
+
 
 # Keanu initialize:
 Keanu = Character("Keanu")
+
+
+def main():
+    print(Keanu)
+
+
+if __name__ == "__main__":
+    main()
