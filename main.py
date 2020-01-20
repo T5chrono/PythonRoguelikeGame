@@ -3,7 +3,7 @@ import engine
 import ui
 import game
 import board
-import inventory
+from inventory import print_table, add_to_inventory, random_item, ITEMS
 import character
 
 
@@ -24,16 +24,20 @@ def main():
         if player_move in ["w", "s", "a", "d"]:
             engine.handle_movement_effects(player_move)
         elif player_move == "c":
-            print(character.Keanu)
+            print(engine.player_character)
         elif player_move == "h":
             pass # prints help menu
         elif player_move == "i":
-            inventory.print_table(character.Keanu.inventory)
+            print_table(engine.player_character.inventory)
         elif player_move == "p":
-            inventory.add_to_inventory(character.Keanu.inventory, ["some item to implement"])
+            if engine.board.tiles[engine.board.player_tile_position[0]][engine.board.player_tile_position[1]].tile_type == "ITEM":
+                add_to_inventory(engine.player_character.inventory, random_item(ITEMS))
+            else:
+                print("There is nothing here.")
         elif player_move == "q":
             engine.is_running = False
 
 
 if __name__ == '__main__':
     main()
+#engine.board.player_tile_position[0]

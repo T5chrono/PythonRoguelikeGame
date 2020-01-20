@@ -23,11 +23,8 @@ class Character:
                f'Speed: {self.speed}'
 
 
-# Keanu initialize:
-Keanu = Character("Keanu")
-
-
 def main():
+    Keanu = Character("Keanu")
     print(Keanu)
 
 
