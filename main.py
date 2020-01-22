@@ -1,7 +1,7 @@
 import util
 import game
-from weapons_armor_items import weapons, weapon_names, armors, armor_names
-from inventory import print_table, add_to_inventory, random_item, ITEMS
+from weapons_armor_items import weapons, weapon_names, armors, armor_names, powerups, powerups_names
+from inventory import print_table, add_to_inventory, remove_from_inventory, random_item, ITEMS
 
 
 def main():
@@ -30,6 +30,8 @@ def main():
             pick_up_something(engine)
         elif player_move == "e":
             equip(engine)
+        elif player_move == "u":
+            use_item(engine)
         elif player_move == "q":
             engine.is_running = False
 
@@ -76,12 +78,27 @@ def equip(engine):
         print(f"You cannot equip {user_input}.")
 
 
+def use_item(engine):
+    user_input = input("What item would you like to use?: ")
+    if user_input in engine.player_character.inventory.keys():
+        if user_input == "Health potion":
+            remove_from_inventory(engine.player_character.inventory, ["Health potion"])
+            engine.player_character.heal_hp()
+        elif user_input == "Mana potion":
+            remove_from_inventory(engine.player_character.inventory, ["Mana potion"])
+            engine.player_character.heal_mana()
+        else:
+            print(f"You cannot use {user_input}.")
+
+
 def display_help():
     print("This is what you can do:\n"
           "move -> w / s / a / d\n"
           "check your stats -> c\n"
           "check you inventory -> i\n"
           "pick up items -> p\n"
+          "equip various weapons and armor -> e"
+          "use items -> u"
           "quit the game -> q")
 
 

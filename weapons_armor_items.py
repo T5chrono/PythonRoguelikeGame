@@ -55,3 +55,13 @@ powerups = [PowerUps(["Health potion", "current_hp", 5]),
             PowerUps(["Mana potion", "current_mana", 5])]
 
 powerups_names = [powerup.name for powerup in powerups]
+
+
+def main():
+    potion = powerups[1]
+    print(type(potion))
+    type(potion)
+
+
+if __name__ == "__main__":
+    main()

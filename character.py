@@ -1,4 +1,4 @@
-from weapons_armor_items import weapons, weapon_names, armors, armor_names
+from weapons_armor_items import weapons, armors, powerups
 
 class Character:
 
@@ -64,6 +64,20 @@ class Character:
 
     def update_dodge(self):
         self.dodge_chance = int(self.dexterity - self.armor // 2)
+
+    def heal_hp(self):
+        new_hp = self.current_hp + powerups[0].powerup
+        if new_hp <= 10:
+            self.current_hp = new_hp
+        else:
+            self.current_hp = 10
+
+    def heal_mana(self):
+        new_mana = self.current_mana + powerups[1].powerup
+        if new_mana <= 10:
+            self.current_mana = new_mana
+        else:
+            self.current_mana = 10
 
 
 def main():

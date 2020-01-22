@@ -22,6 +22,16 @@ def add_to_inventory(inventory, added_items):
     return inventory
 
 
+def remove_from_inventory(inventory, removed_items):
+    """Remove from the inventory dictionary a list of items from removed_items."""
+    for item in removed_items:
+        if item in inventory.keys():
+            inventory.update({item: inventory[item] - 1})
+            if inventory[item] <= 0:
+                del inventory[item]
+    return inventory
+
+
 def print_table(inventory, order='empty'):
     """
     Display the contents of the inventory in an ordered, well-organized table with
