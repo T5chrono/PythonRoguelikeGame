@@ -29,35 +29,7 @@ def main():
         elif player_move == "p":
             pick_up_something(engine)
         elif player_move == "e":
-            # TODO complete equiping logic:
-            user_input = input("What would you like to equip?: ")
-            if user_input in weapon_names:# and user_input in engine.player_character.inventory.keys():
-                for i in range(len(weapon_names)):
-                    if user_input == weapon_names[i]:
-                        add_to_inventory(engine.player_character.inventory, [engine.player_character.weapon.name])
-                        engine.player_character.weapon = weapons[i]
-                        engine.player_character.update_attack()
-            elif user_input in armor_names:
-                for i in range (len(armor_names)):
-                    if user_input == armor_names[i]:
-                        if armors[i].body_part == "head":
-                            add_to_inventory(engine.player_character.inventory, [engine.player_character.head.name])
-                            engine.player_character.head = armors[i]
-                        elif armors[i].body_part == "torso":
-                            add_to_inventory(engine.player_character.inventory, [engine.player_character.torso.name])
-                            engine.player_character.torso = armors[i]
-                        elif armors[i].body_part == "arms":
-                            add_to_inventory(engine.player_character.inventory, [engine.player_character.arms.name])
-                            engine.player_character.arms = armors[i]
-                        elif armors[i].body_part == "legs":
-                            add_to_inventory(engine.player_character.inventory, [engine.player_character.legs.name])
-                            engine.player_character.legs = armors[i]
-                        elif armors[i].body_part == "shield":
-                            add_to_inventory(engine.player_character.inventory, [engine.player_character.shield.name])
-                            engine.player_character.shield = armors[i]
-                    engine.player_character.update_armor()
-            else:
-                print(f"You cannot equip {user_input}.")
+            equip(engine)
         elif player_move == "q":
             engine.is_running = False
 
@@ -71,6 +43,37 @@ def pick_up_something(engine):
                            engine.board.player_tile_position[1]].tile_type = "EMPTY"
     else:
         print("There is nothing here.")
+
+
+def equip(engine):
+    user_input = input("What would you like to equip?: ")
+    if user_input in weapon_names and user_input in engine.player_character.inventory.keys():
+        for i in range(len(weapon_names)):
+            if user_input == weapon_names[i]:
+                add_to_inventory(engine.player_character.inventory, [engine.player_character.weapon.name])
+                engine.player_character.weapon = weapons[i]
+                engine.player_character.update_attack()
+    elif user_input in armor_names and user_input in engine.player_character.inventory.keys():
+        for i in range(len(armor_names)):
+            if user_input == armor_names[i]:
+                if armors[i].body_part == "head":
+                    add_to_inventory(engine.player_character.inventory, [engine.player_character.head.name])
+                    engine.player_character.head = armors[i]
+                elif armors[i].body_part == "torso":
+                    add_to_inventory(engine.player_character.inventory, [engine.player_character.torso.name])
+                    engine.player_character.torso = armors[i]
+                elif armors[i].body_part == "arms":
+                    add_to_inventory(engine.player_character.inventory, [engine.player_character.arms.name])
+                    engine.player_character.arms = armors[i]
+                elif armors[i].body_part == "legs":
+                    add_to_inventory(engine.player_character.inventory, [engine.player_character.legs.name])
+                    engine.player_character.legs = armors[i]
+                elif armors[i].body_part == "shield":
+                    add_to_inventory(engine.player_character.inventory, [engine.player_character.shield.name])
+                    engine.player_character.shield = armors[i]
+            engine.player_character.update_armor()
+    else:
+        print(f"You cannot equip {user_input}.")
 
 
 def display_help():

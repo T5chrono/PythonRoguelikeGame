@@ -7,7 +7,7 @@ class Character:
         self.name = name
         self.character_class = "Bug Slayer"
         self.race = "Android"
-        self.inventory = {'Sword': 1, 'Body Armor': 1}
+        self.inventory = {}
         # LEVELING UP
         self.level = 1
         self.current_experience = 0
@@ -29,7 +29,7 @@ class Character:
         self.arms = armors[2]
         self.legs = armors[3]
         self.shield = armors[4]
-        self.armor = self.head + self.torso + self.arms + self.legs + self.shield
+        self.armor = self.head.armor + self.torso.armor + self.arms.armor + self.legs.armor + self.shield.armor
         # ADVANCED STATS
         self.speed = self.dexterity * 7
         self.dodge_chance = int(self.dexterity - self.armor // 2)
@@ -38,17 +38,17 @@ class Character:
         return f'Name: {self.name} ({self.race} the {self.character_class}) \n' \
                f'EXP: {self.current_experience} -> Level {self.level} \n' \
                f'HP: {self.current_hp} / {self.max_hp} \n' \
-               f'MANA: {self.current_mana} / {self.max_mana} \n' \
+               f'MANA: {self.current_mana} / {self.max_mana} \n\n' \
                f'Strength: {self.strength} \n' \
                f'Dexterity: {self.dexterity} \n' \
-               f'Inteligence: {self.intelligence} \n' \
+               f'Inteligence: {self.intelligence} \n\n' \
                f'Attack: {self.attack} with {self.weapon.name}: {self.weapon.attack} \n' \
                f'Defense: {self.armor} \n' \
-               f'   Head: {self.head} ({self.head.name}) \n' \
-               f'   Torso: {self.torso} ({self.torso.name}) \n' \
-               f'   Arms: {self.arms} ({self.arms.name}) \n' \
-               f'   Legs: {self.legs} ({self.legs.name}) \n' \
-               f'   Shield: {self.shield} ({self.shield.name}) \n' \
+               f'   Head: {self.head.armor} ({self.head.name}) \n' \
+               f'   Torso: {self.torso.armor} ({self.torso.name}) \n' \
+               f'   Arms: {self.arms.armor} ({self.arms.name}) \n' \
+               f'   Legs: {self.legs.armor} ({self.legs.name}) \n' \
+               f'   Shield: {self.shield.armor} ({self.shield.name}) \n' \
 
 
     def update_player(self):
@@ -60,7 +60,7 @@ class Character:
         self.attack = self.strength + self.weapon.attack
 
     def update_armor(self):
-        self.armor = self.head + self.torso + self.arms + self.legs + self.shield
+        self.armor = self.head.armor + self.torso.armor + self.arms.armor + self.legs.armor + self.shield.armor
 
     def update_dodge(self):
         self.dodge_chance = int(self.dexterity - self.armor // 2)
