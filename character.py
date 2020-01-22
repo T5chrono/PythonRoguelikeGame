@@ -1,4 +1,4 @@
-import weapons_armor_items
+from weapons_armor_items import weapons, weapon_names, armors, armor_names
 
 class Character:
 
@@ -21,14 +21,14 @@ class Character:
         self.max_mana = 10
         self.current_mana = 10
         # ATTACK
-        self.weapon = weapons_armor_items.weapons[1]
+        self.weapon = weapons[1]
         self.attack = self.strength + self.weapon.attack
         # DEFENCE
-        self.head = 0
-        self.torso = 0
-        self.arms = 0
-        self.legs = 0
-        self.shield = 0
+        self.head = armors[0]
+        self.torso = armors[1]
+        self.arms = armors[2]
+        self.legs = armors[3]
+        self.shield = armors[4]
         self.armor = self.head + self.torso + self.arms + self.legs + self.shield
         # ADVANCED STATS
         self.speed = self.dexterity * 7
@@ -44,9 +44,26 @@ class Character:
                f'Inteligence: {self.intelligence} \n' \
                f'Attack: {self.attack} with {self.weapon.name}: {self.weapon.attack} \n' \
                f'Defense: {self.armor} \n' \
-               f'Total Attack: {self.attack} \n' \
-               f'Total Defense: {self.armor} \n' \
-               f'Speed: {self.speed}'
+               f'   Head: {self.head} ({self.head.name}) \n' \
+               f'   Torso: {self.torso} ({self.torso.name}) \n' \
+               f'   Arms: {self.arms} ({self.arms.name}) \n' \
+               f'   Legs: {self.legs} ({self.legs.name}) \n' \
+               f'   Shield: {self.shield} ({self.shield.name}) \n' \
+
+
+    def update_player(self):
+        self.update_attack()
+        self.update_armor()
+        self.update_dodge()
+
+    def update_attack(self):
+        self.attack = self.strength + self.weapon.attack
+
+    def update_armor(self):
+        self.armor = self.head + self.torso + self.arms + self.legs + self.shield
+
+    def update_dodge(self):
+        self.dodge_chance = int(self.dexterity - self.armor // 2)
 
 
 def main():

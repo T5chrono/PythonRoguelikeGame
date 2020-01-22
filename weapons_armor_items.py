@@ -8,10 +8,11 @@ class Weapon:
 
 
 # weapon_properties = [name, attack, critical_chance]
-weapons = [Weapon(["Dagger", 1, 0]),
-           Weapon(["Simple sword", 1, 1]),
-           Weapon(["Axe", 1, 2]),
-           Weapon(["Hammer", 2, 1])]
+weapons = [Weapon(["Fists", 1, 0]),
+           Weapon(["Dagger", 2, 0]),
+           Weapon(["Simple sword", 3, 1]),
+           Weapon(["Axe", 3, 2]),
+           Weapon(["Hammer", 4, 1])]
 
 weapon_names = [weapon.name for weapon in weapons]
 
@@ -26,7 +27,12 @@ class Armor:
 
 
 # armor_properties = [name, body_part, armor]
-armors = [Armor(["Helmet", "head", 1]),
+armors = [Armor(["Cap", "head", 0]),
+          Armor(["Shirt", "torso", 0]),
+          Armor(["Gloves", "arms", 0]),
+          Armor(["Shoes", "legs", 0]),
+          Armor(["Buckler", "shield", 1]),
+          Armor(["Helmet", "head", 1]),
           Armor(["Gloves", "arms", 1]),
           Armor(["Greaves", "legs", 1]),
           Armor(["Breastplate", "torso", 1]),

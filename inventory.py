@@ -61,8 +61,6 @@ def sort_dictionary(inventory, order):
 def print_line(column_widths):
     """ Prints straight line which length corresponds to column widths. """
     print("-" * (sum(column_widths) + len(column_widths) + 1))
-
-
 # ----- Helper functions for print_table END -----
 
 
