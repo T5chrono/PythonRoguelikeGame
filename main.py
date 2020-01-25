@@ -7,17 +7,17 @@ from inventory import print_table, add_to_inventory, remove_from_inventory, rand
 from pygame import mixer
 
 SUPPORTED_KEYS = {
-    "player movement": ["w", "s", "a", "d"],
-    "character details": "c",
-    "inventory": "i",
-    "pick up sth": "p",
-    "equip sth": "e",
-    "use sth": "u",
-    "quit": "q",
-    "help": "h"
+    "Player movement": ["w", "s", "a", "d"],
+    "Character details": "c",
+    "Inventory": "i",
+    "Pick up sth": "p",
+    "Equip sth": "e",
+    "Use sth": "u",
+    "Quit": "q",
+    "Help": "h"
 }
 
-MUSIC_FILE = "music.wav"
+MUSIC_FILE = "pokemon.wav"
 
 
 def main():
@@ -38,33 +38,34 @@ def main():
         else:
             board_created = True
 
-    util.clear_screen()
-    engine.board.display_board()
-    # ui.display_help(**SUPPORTED_KEYS)
+    # engine.board.display_board()
 
     # play music
     mixer.music.play()
 
     engine.is_running = True
     player_move = 'h'
-    while player_move != SUPPORTED_KEYS['quit'] and engine.is_running:
-        if player_move in SUPPORTED_KEYS['player movement']:
+    while player_move != SUPPORTED_KEYS['Quit'] and engine.is_running:
+        if player_move in SUPPORTED_KEYS['Player movement']:
             engine.handle_movement_effects(player_move)
-        elif player_move == SUPPORTED_KEYS['character details']:
+        elif player_move == SUPPORTED_KEYS['Character details']:
             get_char_details(engine)
-        elif player_move == SUPPORTED_KEYS['help']:
+        elif player_move == SUPPORTED_KEYS['Help']:
             get_help(engine)
-        elif player_move == SUPPORTED_KEYS['inventory']:
+        elif player_move == SUPPORTED_KEYS['Inventory']:
             get_inventory(engine)
-        elif player_move == SUPPORTED_KEYS['pick up sth']:
+        elif player_move == SUPPORTED_KEYS['Pick up sth']:
             pick_up_something(engine)
-        elif player_move == SUPPORTED_KEYS['equip sth']:
+        elif player_move == SUPPORTED_KEYS['Equip sth']:
             equip(engine)
-        elif player_move == SUPPORTED_KEYS['use sth']:
+        elif player_move == SUPPORTED_KEYS['Use sth']:
             use_item(engine)
+        elif player_move == SUPPORTED_KEYS["distribute exp points"]:
+            engine.player_character.distribute_points()
+            engine.display_after_key_press()
         player_move = util.key_pressed()
     else:
-        ui.display_goodbye()
+        ui.display_goodbye(engine.player_character.name)
 
 
 # clean up screen when you display info
@@ -102,26 +103,20 @@ def equip(engine):
     if user_input in weapon_names and user_input in engine.player_character.inventory.keys():
         for i in range(len(weapon_names)):
             if user_input == weapon_names[i]:
-                add_to_inventory(engine.player_character.inventory, [engine.player_character.weapon.name])
                 engine.player_character.weapon = weapons[i]
                 engine.player_character.update_attack()
     elif user_input in armor_names and user_input in engine.player_character.inventory.keys():
         for i in range(len(armor_names)):
             if user_input == armor_names[i]:
                 if armors[i].body_part == "head":
-                    add_to_inventory(engine.player_character.inventory, [engine.player_character.head.name])
                     engine.player_character.head = armors[i]
                 elif armors[i].body_part == "torso":
-                    add_to_inventory(engine.player_character.inventory, [engine.player_character.torso.name])
                     engine.player_character.torso = armors[i]
                 elif armors[i].body_part == "arms":
-                    add_to_inventory(engine.player_character.inventory, [engine.player_character.arms.name])
                     engine.player_character.arms = armors[i]
                 elif armors[i].body_part == "legs":
-                    add_to_inventory(engine.player_character.inventory, [engine.player_character.legs.name])
                     engine.player_character.legs = armors[i]
                 elif armors[i].body_part == "shield":
-                    add_to_inventory(engine.player_character.inventory, [engine.player_character.shield.name])
                     engine.player_character.shield = armors[i]
             engine.player_character.update_armor()
     else:

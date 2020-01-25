@@ -1,5 +1,6 @@
 def get_character_name():
-    return input("Please provide the name of your character! :) ")
+    name = input("Please provide the name of your character! :) ")
+    return name if name != "" else "Keanu"
 
 
 def display_board(board):
@@ -15,13 +16,13 @@ def display_board(board):
 
 
 def display_help(**kwargs):
-    print("\nPlease find available options below!")
+    print("\nPlease find available options below!\n")
     for k, v in kwargs.items():
         if isinstance(v, list):
-            print(f"{k} -> press ", end="")
-            print(*v, sep="/")
+            print(f"{k} -> Press one from: '", end="")
+            print(*v, sep="'/'", end="'\n")
         else:
-            print(f"{k} -> press {v}")
+            print(f"{k} -> Press '{v}'")
 
 
 def display_character_details(**kwargs):
@@ -42,5 +43,5 @@ def display_added_item(*args):
     print("Congratulations! You found ", *args, "!", sep="")
 
 
-def display_goodbye():
-    print("\nBye! Thanks for playing!")
+def display_goodbye(player_name):
+    print(f"\nBye {player_name}! Thanks for playing!")
