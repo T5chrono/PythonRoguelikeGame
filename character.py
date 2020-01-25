@@ -11,7 +11,9 @@ class Character:
         self.inventory = {}
         # LEVELING UP
         self.level = 1
+        self.points = 0
         self.current_experience = 0
+        self.next_lvl_experience = 15
         # BASIC STATS
         self.strength = 1
         self.dexterity = 1
@@ -51,6 +53,19 @@ class Character:
                f'   Legs: {self.legs.armor} ({self.legs.name}) \n' \
                f'   Shield: {self.shield.armor} ({self.shield.name}) \n' \
 
+    def check_if_lvl_up(self):
+        multiplier_for_exp = 1.5
+        mutliplier_for_points = 2
+        if self.current_experience >= self.next_lvl_experience:
+            self.level += 1
+            print("Congratulations! You levelled up!")
+            self.next_lvl_experience += (self.current_experience)*multiplier_for_exp
+            self.points += (self.level * mutliplier_for_points)
+        
+    def distribute_points(self):
+        pass
+
+
 
     def update_player(self):
         self.update_attack()
@@ -80,11 +95,3 @@ class Character:
         else:
             self.current_mana = 10
 
-
-def main():
-    Keanu = Character("Keanu")
-    print(Keanu)
-
-
-if __name__ == "__main__":
-    main()

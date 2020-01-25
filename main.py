@@ -45,8 +45,9 @@ def main():
     # play music
     mixer.music.play()
 
+    engine.is_running = True
     player_move = 'h'
-    while player_move != SUPPORTED_KEYS['quit']:
+    while player_move != SUPPORTED_KEYS['quit'] and engine.is_running:
         if player_move in SUPPORTED_KEYS['player movement']:
             engine.handle_movement_effects(player_move)
         elif player_move == SUPPORTED_KEYS['character details']:

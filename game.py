@@ -59,6 +59,7 @@ class Game():
 
         if fight.monster_hp < 1:
             self.board.make_tile_empty(new_position)
+            self.player_character.check_if_lvl_up()
         if self.is_running:
             self.display_after_key_press()
 
