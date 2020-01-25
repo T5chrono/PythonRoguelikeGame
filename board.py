@@ -81,11 +81,15 @@ class Board():
         self.gate_tile_position = Board.place_gate(self)
         self.board_level = 1
 
-    def generate_new_boad(self):
+    def generate_new_board(self):
         self.tiles = self.make_board()
         self.player_tile_position = Board.place_player(self)
         self.gate_tile_position = Board.place_gate(self)
         self.board_level += 1
+
+    def generate_boss_level(self):
+        self.generate_new_board()
+        self.place_boss()
 
     def boss_level(self):
         self.tiles = []
@@ -264,6 +268,19 @@ class Board():
             self.tiles[new_position[0]][new_position[1]].tile_type = "ITEM"
             print("The monster dropped an item")
 
+    def place_boss(self):
+        boss_index = self.get_random_passable_position()
+        boss_correct = 0
+        for y in range(3):
+            for x in range(3):
+                if self.tiles[boss_index[0]+y][boss_index[1]+x].tile_type == "EMPTY" and self.tiles[boss_index[0]+y][boss_index[1]+x].is_player == False:
+                    boss_correct += 1
+        if boss_correct == 9:
+            for y in range(3):
+                for x in range(3):
+                    self.tiles[boss_index[0]+y][boss_index[1]+x].tile_type = "BOSS"
+        else:
+            self.place_boss()
 
 def read_file(filename):
     with open(filename, "r") as file:

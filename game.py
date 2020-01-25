@@ -48,10 +48,10 @@ class Game():
                 elif self.board.check_if_gate(new_position):
                     user_input = input("Do you want to enter the gate: ")
                     if user_input == 'y':
-                        if self.board.board_level < 3:
-                            self.board.generate_new_boad()
+                        if self.board.board_level < 2:
+                            self.board.generate_new_board()
                         else:
-                            self.board.boss_level()
+                            self.board.generate_boss_level()
 
                 else:
                     self.move(new_position)
