@@ -18,5 +18,3 @@ class Event():
 class EventPool():
 
     events = [Event(["HP"], 0, 0, 0, 0, 5, "You hear DnD players singing 'Diggy, diggy hole'. You approach slowly and join their party. They share snacks with you. You regain 5 HP")]
-
-

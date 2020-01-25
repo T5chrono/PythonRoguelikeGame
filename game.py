@@ -43,6 +43,10 @@ class Game():
                     self.move(new_position)
                     self.handle_event_effects(new_position)
 
+                elif self.board.check_if_gate(new_position):
+                    user_input = input("Do you want to enter the gate: ")
+                    if user_input == 'y':
+                        self.board.generate_new_boad()
 
                 else:
                     self.move(new_position)
