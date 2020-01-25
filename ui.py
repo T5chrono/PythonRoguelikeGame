@@ -1,3 +1,7 @@
+def get_character_name():
+    return input("Please provide the name of your character! :) ")
+
+
 def display_board(board):
     '''
     Displays complete game board on the screen

@@ -4,6 +4,7 @@ import game
 import ui
 from weapons_armor_items import weapons, weapon_names, armors, armor_names, powerups, powerups_names
 from inventory import print_table, add_to_inventory, remove_from_inventory, random_item, ITEMS
+from pygame import mixer
 
 SUPPORTED_KEYS = {
     "player movement": ["w", "s", "a", "d"],
@@ -16,25 +17,35 @@ SUPPORTED_KEYS = {
     "help": "h"
 }
 
+MUSIC_FILE = "music.wav"
+
 
 def main():
-    clear_screen()
     board_created = False
+
+    util.clear_screen()
+    # add music
+    mixer.init()
+    mixer.music.load(os.path.dirname(os.path.realpath(__file__)) + "/"+ MUSIC_FILE)
+
+    character_name = ui.get_character_name()
 
     while not board_created:
         try:
-            engine = game.Game()
+            engine = game.Game(character_name)
         except TypeError:
             print("Enter a number!")
         else:
             board_created = True
 
-    clear_screen()
+    util.clear_screen()
     engine.board.display_board()
     # ui.display_help(**SUPPORTED_KEYS)
 
     player_move = 'h'
     while player_move != SUPPORTED_KEYS['quit']:
+        # play music
+        mixer.music.play()
         if player_move in SUPPORTED_KEYS['player movement']:
             engine.handle_movement_effects(player_move)
         elif player_move == SUPPORTED_KEYS['character details']:
@@ -55,24 +66,20 @@ def main():
 
 
 # clean up screen when you display info
-def clear_screen():
-    return os.system('tput reset')
-
-
 def get_help(engine):
-    clear_screen()
+    util.clear_screen()
     engine.board.display_board()
     ui.display_help(**SUPPORTED_KEYS)
 
 
 def get_char_details(engine):
-    clear_screen()
+    util.clear_screen()
     engine.board.display_board()
     ui.display_character_details(**engine.player_character.__dict__)
 
 
 def get_inventory(engine):
-    clear_screen()
+    util.clear_screen()
     engine.board.display_board()
     print_table(engine.player_character.inventory)
 
