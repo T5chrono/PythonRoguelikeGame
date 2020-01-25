@@ -3,12 +3,8 @@ import util
 import battle
 import character
 import ui
-<<<<<<< Updated upstream
 from weapons_armor_items import weapons, weapon_names, armors, armor_names, powerups, powerups_names, common_items, common_items_names
-=======
 import events
-from weapons_armor_items import weapons, weapon_names, armors, armor_names, powerups, powerups_names
->>>>>>> Stashed changes
 from inventory import print_table, add_to_inventory, remove_from_inventory, random_item, ITEMS
 
 
