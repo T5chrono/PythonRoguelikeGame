@@ -80,6 +80,7 @@ class Board():
         self.player_tile_position = Board.place_player(self)
         self.gate_tile_position = Board.place_gate(self)
         self.board_level = 1
+        self.is_boss = False
 
     def generate_new_board(self):
         self.tiles = self.make_board()
@@ -90,10 +91,6 @@ class Board():
     def generate_boss_level(self):
         self.generate_new_board()
         self.place_boss()
-
-    def boss_level(self):
-        self.tiles = []
-        self.player_tile_position = Board.place_player(self)
 
     def get_random_map_path(self):
         rooms_number = 18
@@ -239,7 +236,7 @@ class Board():
             position_x = randint(0, max_index_x)
             position_y = randint(0, max_index_y)
 
-            if self.tiles[position_y][position_x].is_passable and not self.tiles[position_y][position_x].is_player:
+            if self.tiles[position_y][position_x].tile_type != "BOSS" and self.tiles[position_y][position_x].is_passable and not self.tiles[position_y][position_x].is_player:
                 random_passable_tile_index = [position_y, position_x]
                 incorrect_position = False
 
@@ -269,18 +266,42 @@ class Board():
             print("The monster dropped an item")
 
     def place_boss(self):
-        boss_index = self.get_random_passable_position()
+        self.boss_index = self.get_random_passable_position()
         boss_correct = 0
         for y in range(3):
             for x in range(3):
-                if self.tiles[boss_index[0]+y][boss_index[1]+x].tile_type == "EMPTY" and self.tiles[boss_index[0]+y][boss_index[1]+x].is_player == False:
+                if self.tiles[self.boss_index[0]+y][self.boss_index[1]+x].tile_type == "EMPTY" and self.tiles[self.boss_index[0]+y][self.boss_index[1]+x].is_player == False:
                     boss_correct += 1
         if boss_correct == 9:
             for y in range(3):
                 for x in range(3):
-                    self.tiles[boss_index[0]+y][boss_index[1]+x].tile_type = "BOSS"
+                    self.tiles[self.boss_index[0]+y][self.boss_index[1]+x].tile_type = "BOSS"
+            self.is_boss = True
         else:
             self.place_boss()
+
+    def move_boss(self):
+        temp_position = self.boss_index.copy()
+        temp_position[0] += randint(-1, 1)
+        temp_position[1] += randint(-1, 1)
+        boss_correct = 0
+        for y in range(3):
+            for x in range(3):
+                if (self.tiles[temp_position[0]+y][temp_position[1]+x].tile_type == "EMPTY" or self.tiles[temp_position[0]+y][temp_position[1]+x].tile_type == "BOSS") and self.tiles[self.boss_index[0]+y][self.boss_index[1]+x].is_player == False:
+                    boss_correct += 1
+        if boss_correct == 9:
+            self.remove_boss()
+            self.boss_index = temp_position.copy()
+            for y in range(3):
+                for x in range(3):
+                    self.tiles[self.boss_index[0]+y][self.boss_index[1]+x].tile_type = "BOSS"
+            print("The boss moved!")
+
+    def remove_boss(self):
+        for y in range(3):
+            for x in range(3):
+                self.tiles[self.boss_index[0]+y][self.boss_index[1]+x].tile_type = "EMPTY"
+
 
 def read_file(filename):
     with open(filename, "r") as file:

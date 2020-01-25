@@ -66,6 +66,8 @@ class Game():
         self.board.move_player(new_position)
         util.clear_screen()
         self.board.display_board()
+        if self.board.is_boss:
+            self.board.move_boss()
         print(self.board.tiles[new_position[0]][new_position[1]].descirption)
 
     def handle_event_effects(self, new_position):
