@@ -72,10 +72,10 @@ class Game():
         self.board.display_board()
 
 
-    def get_help(self, SUPPORTED_KEYS):
+    def get_help(self, **SUPPORTED_KEYS):
         util.clear_screen()
         self.board.display_board()
-        ui.display_help(SUPPORTED_KEYS)
+        ui.display_help(**SUPPORTED_KEYS)
 
 
     def get_char_details(self):

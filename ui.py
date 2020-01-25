@@ -2,9 +2,9 @@ def get_character_name():
     name = input("Please provide the name of your character! :) ")
     return name if name != "" else "Keanu"
 
-def display_help(SUPPORTED_KEYS):
-    print("\nPlease find available options below!")
-    for k, v in SUPPORTED_KEYS.items():
+def display_help(**kwargs):
+    print("\nPlease find available options below!\n")
+    for k, v in kwargs.items():
         if isinstance(v, list):
             print(f"{k} -> Press one from: '", end="")
             print(*v, sep="'/'", end="'\n")

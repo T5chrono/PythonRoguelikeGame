@@ -52,7 +52,7 @@ def main():
         elif player_move == SUPPORTED_KEYS['Character details']:
             engine.get_char_details()
         elif player_move == SUPPORTED_KEYS['Help']:
-            engine.get_help(SUPPORTED_KEYS)
+            engine.get_help(**SUPPORTED_KEYS)
         elif player_move == SUPPORTED_KEYS['Inventory']:
             engine.get_inventory()
         elif player_move == SUPPORTED_KEYS['Pick up sth']:
