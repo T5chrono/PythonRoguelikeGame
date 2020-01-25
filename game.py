@@ -39,6 +39,7 @@ class Game():
 
                 else:
                     self.move(new_position)
+                    self.board.place_random_monster()
 
         except IndexError:
             util.clear_screen()

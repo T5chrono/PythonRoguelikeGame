@@ -88,13 +88,3 @@ class Battle():
         if damage < 0:
             damage = 0
         return damage
-
-    def attack(attacker, defender):
-        pass
-
-    def run():
-        pass
-
-
-if __name__ == "__main__":
-    print(monster.MonsterPool.monsters)
