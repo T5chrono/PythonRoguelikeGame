@@ -7,18 +7,17 @@ from inventory import print_table, add_to_inventory, remove_from_inventory, rand
 from pygame import mixer
 
 SUPPORTED_KEYS = {
-    "player movement": ["w", "s", "a", "d"],
-    "character details": "c",
-    "inventory": "i",
-    "pick up sth": "p",
-    "equip sth": "e",
-    "use sth": "u",
-    "quit": "q",
-    "help": "h",
-    "distribute exp points": "l",
+    "Player movement": ["w", "s", "a", "d"],
+    "Character details": "c",
+    "Inventory": "i",
+    "Pick up sth": "p",
+    "Equip sth": "e",
+    "Use sth": "u",
+    "Quit": "q",
+    "Help": "h"
 }
 
-MUSIC_FILE = "music.wav"
+MUSIC_FILE = "pokemon.wav"
 
 
 def main():
@@ -39,17 +38,15 @@ def main():
         else:
             board_created = True
 
-    util.clear_screen()
-    engine.board.display_board()
-    # ui.display_help(**SUPPORTED_KEYS)
+    # engine.board.display_board()
 
     # play music
     mixer.music.play()
 
     engine.is_running = True
     player_move = 'h'
-    while player_move != SUPPORTED_KEYS['quit'] and engine.is_running:
-        if player_move in SUPPORTED_KEYS['player movement']:
+    while player_move != SUPPORTED_KEYS['Quit'] and engine.is_running:
+        if player_move in SUPPORTED_KEYS['Player movement']:
             engine.handle_movement_effects(player_move)
         elif player_move == SUPPORTED_KEYS['character details']:
             engine.get_char_details()
@@ -68,7 +65,7 @@ def main():
             engine.display_after_key_press()
         player_move = util.key_pressed()
     else:
-        ui.display_goodbye()
+        ui.display_goodbye(engine.player_character.name)
 
 
 if __name__ == '__main__':

@@ -12,6 +12,7 @@ EMPTY_COLOR = fg('dark_gray')
 RESET_COLOR = attr('reset')
 
 
+
 class TileTypes(Enum):
     EMPTY = 1
     ITEM = 2
