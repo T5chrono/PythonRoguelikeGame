@@ -134,3 +134,11 @@ class Character:
             self.current_mana = new_mana
         else:
             self.current_mana = 10
+<<<<<<< Updated upstream
+=======
+
+    def correct_current_hp_to_max(self):
+        if self.current_hp > self.max_hp:
+            self.current_hp = self.max_hp
+
+>>>>>>> Stashed changes

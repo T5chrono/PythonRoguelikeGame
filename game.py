@@ -3,7 +3,12 @@ import util
 import battle
 import character
 import ui
+<<<<<<< Updated upstream
 from weapons_armor_items import weapons, weapon_names, armors, armor_names, powerups, powerups_names, common_items, common_items_names
+=======
+import events
+from weapons_armor_items import weapons, weapon_names, armors, armor_names, powerups, powerups_names
+>>>>>>> Stashed changes
 from inventory import print_table, add_to_inventory, remove_from_inventory, random_item, ITEMS
 
 
@@ -38,6 +43,11 @@ class Game():
                     self.move(new_position)
                     print("There is something here. Do you want to pick it up? (press \"p\")")
 
+                elif self.board.check_if_event(new_position):
+                    self.move(new_position)
+                    self.handle_event_effects(new_position)
+
+
                 else:
                     self.move(new_position)
                     self.board.place_random_monster()
@@ -51,6 +61,17 @@ class Game():
         self.board.move_player(new_position)
         util.clear_screen()
         self.board.display_board()
+
+    def handle_event_effects(self, new_position):
+        event = events.Event.get_random_event()
+        self.player_character.strength += event.strenght
+        self.player_character.current_hp += event.hp
+        self.player_character.dexterity += event.dexterity
+        self.player_character.intelligence += event.intelligence
+        self.player_character.current_experience += event.exp
+        self.player_character.correct_current_hp_to_max()
+        self.player_character.check_if_lvl_up()
+        print(event.description)
 
     def handle_entire_battle(self, new_position):
         fight = battle.Battle(self.player_character)
