@@ -1,5 +1,6 @@
 import util
 import game
+import ui
 from weapons_armor_items import weapons, weapon_names, armors, armor_names, powerups, powerups_names
 from inventory import print_table, add_to_inventory, remove_from_inventory, random_item, ITEMS
 
@@ -21,7 +22,7 @@ def main():
         if player_move in ["w", "s", "a", "d"]:
             engine.handle_movement_effects(player_move)
         elif player_move == "c":
-            print(engine.player_character)
+            ui.display_character_details(**engine.player_character.__dict__)
         elif player_move == "h":
             display_help()
         elif player_move == "i":
