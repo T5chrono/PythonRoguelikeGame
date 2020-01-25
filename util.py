@@ -27,4 +27,4 @@ def key_pressed():
 
 
 def clear_screen():
-    os.system('cls' if os.name == 'nt' else 'clear')
+    os.system('tput reset')

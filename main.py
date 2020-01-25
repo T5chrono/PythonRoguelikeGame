@@ -26,7 +26,7 @@ def main():
     util.clear_screen()
     # add music
     mixer.init()
-    mixer.music.load(os.path.dirname(os.path.realpath(__file__)) + "/"+ MUSIC_FILE)
+    mixer.music.load(os.getcwd() + "/" + MUSIC_FILE)
 
     character_name = ui.get_character_name()
 
@@ -42,10 +42,11 @@ def main():
     engine.board.display_board()
     # ui.display_help(**SUPPORTED_KEYS)
 
+    # play music
+    mixer.music.play()
+
     player_move = 'h'
     while player_move != SUPPORTED_KEYS['quit']:
-        # play music
-        mixer.music.play()
         if player_move in SUPPORTED_KEYS['player movement']:
             engine.handle_movement_effects(player_move)
         elif player_move == SUPPORTED_KEYS['character details']:
@@ -62,7 +63,6 @@ def main():
             use_item(engine)
         player_move = util.key_pressed()
     else:
-        engine.is_running = False
         ui.display_goodbye()
 
 

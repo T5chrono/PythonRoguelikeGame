@@ -1,5 +1,6 @@
 import random
 
+import ui
 import character
 from weapons_armor_items import weapon_names, armor_names, powerups_names
 
@@ -14,6 +15,7 @@ def random_item(lst):
 
 def add_to_inventory(inventory, added_items):
     """Add to the inventory dictionary a list of items from added_items."""
+    ui.display_added_item(*added_items)
     for item in added_items:
         if item in inventory.keys():
             inventory.update({item: inventory[item] + 1})

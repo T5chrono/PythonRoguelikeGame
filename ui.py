@@ -38,5 +38,9 @@ def is_instance_userdefined_and_newclass(inst):
     return False
 
 
+def display_added_item(*args):
+    print("Congratulations! You found ", *args, "!", sep="")
+
+
 def display_goodbye():
     print("\nBye! Thanks for playing!")
