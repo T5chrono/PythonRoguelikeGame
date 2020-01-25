@@ -22,6 +22,7 @@ class TileTypes(Enum):
     EVENT = 4
     WALL = 5
     GATE = 6
+    BOSS = 7
 
 
 class Tile():
@@ -204,7 +205,8 @@ class Board():
             "ITEM": colors.ITEM + "$" + colors.RESET,
             "WALL": colors.WALL + "#" + colors.RESET,
             "PLAYER": colors.PLAYER + "@" + colors.RESET,
-            "GATE": colors.GATE + "G" + colors.RESET
+            "GATE": colors.GATE + "G" + colors.RESET,
+            "BOSS": colors.BOSS + "%" + colors.RESET,
             }
         board_width = len(self.tiles[0]) + 2
         edge = colors.WALL + "#" + colors.RESET
