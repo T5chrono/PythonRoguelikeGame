@@ -226,6 +226,11 @@ class Board():
             self.tiles[monster_index[0]][monster_index[1]].tile_type = "MONSTER"
             print("A new monster arrived!")
 
+    def place_item(self, new_position):
+        chances_to_spawn_item = 20
+        if randint(0,100) < chances_to_spawn_item:
+            self.tiles[new_position[0]][new_position[1]].tile_type = "ITEM"
+            print("The monster dropped an item")
 
 def read_file(filename):
     with open(filename, "r") as file:
