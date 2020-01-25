@@ -3,6 +3,7 @@ import colors
 from enum import Enum
 from random import randint
 
+
 class TileTypes(Enum):
     EMPTY = 1
     ITEM = 2
@@ -229,7 +230,7 @@ class Board():
         if randint(0, 100) < chances_to_spawn_monster:
             monster_index = self.get_random_passable_position()
             self.tiles[monster_index[0]][monster_index[1]].tile_type = "MONSTER"
-            print("A new monster has arrived!")
+            print(f"\n{colors.MONSTER}Oh no!! A new monster has arrived!{colors.RESET}")
 
     def place_item(self, new_position):
         chances_to_spawn_item = 20

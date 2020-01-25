@@ -1,8 +1,9 @@
-import os
 import util
 import game
 import ui
-from pygame import mixer
+import sounds
+import colors
+
 
 SUPPORTED_KEYS = {
     "Player movement": ["w", "s", "a", "d"],
@@ -17,32 +18,21 @@ SUPPORTED_KEYS = {
     "Examine the item": "x"
 }
 
-MUSIC_FILE = "101-opening.wav"
-
 
 def main():
     board_created = False
 
     util.clear_screen()
-    # add music
-    mixer.init()
-    mixer.music.load(os.getcwd() + "/" + MUSIC_FILE)
 
-    character_name = ui.get_character_name()
-
+    character_name = ui.get_user_value("\nPlease provide the name of your character! ", "Keanu")
     while not board_created:
         try:
             engine = game.Game(character_name)
         except TypeError:
-            print("Enter a number!")
+            print(f"{colors.ERROR}Enter a number!{colors.RESET}")
         else:
             board_created = True
-
-    # engine.board.display_board()
-
-    # play music
-    mixer.music.play()
-
+    engine.initialize_player_class_and_race()
     engine.is_running = True
     player_move = 'h'
     while player_move != SUPPORTED_KEYS['Quit'] and engine.is_running:

@@ -16,12 +16,16 @@ class Game():
         self.board = board.Board(Game.initialize_board(self, "height"), Game.initialize_board(self, "width"))
         self.player_character = character.Character(character_name)
 
+    def initialize_player_class_and_race(self):
+        player_race, player_class = self.player_character.get_character_type()
+        self.player_character.add_character_type((player_race, player_class))
+
     def initialize_board(self, dimension):
 
         dimension_size = 0
 
         while dimension_size < 1 or dimension_size > 5:
-            user_answer = input("Choose {} of map between 1 and 5: ".format(dimension))
+            user_answer = input("\nChoose {} of map between {}1 and 5{}: ".format(dimension, colors.ACTION, colors.RESET))
             try:
                 dimension_size = int(user_answer)
             except:
@@ -38,16 +42,18 @@ class Game():
 
                 elif self.board.check_if_item(new_position):
                     self.move(new_position)
-                    print("There is " + colors.ITEM + "something" + colors.RESET + " here. Do you want to pick it up? (press '" + colors.ACTION + "p" + colors.RESET + "')")
+                    print("\nThere is " + colors.ITEM + "something" + colors.RESET + " here. \nDo you want to pick it up? (press '" + colors.ACTION + "p" + colors.RESET + "')")
 
                 elif self.board.check_if_event(new_position):
                     self.move(new_position)
                     self.handle_event_effects(new_position)
 
                 elif self.board.check_if_gate(new_position):
-                    user_input = input("Do you want to enter the gate: ")
-                    if user_input == 'y':
+                    user_input = input(f"\n{colors.GATE}Do you want to enter the gate? (y/n) {colors.RESET}")
+                    if user_input.lower() == 'y':
                         self.board.generate_new_boad()
+                        util.clear_screen()
+                        self.board.display_board()
 
                 else:
                     self.move(new_position)
@@ -56,7 +62,7 @@ class Game():
         except IndexError:
             util.clear_screen()
             self.board.display_board()
-            print("You can't move on wall!")
+            print(f"{colors.ACTION}You can't move on wall!{colors.RESET}")
 
     def move(self, new_position):
         self.board.move_player(new_position)
@@ -77,7 +83,7 @@ class Game():
 
     def handle_entire_battle(self, new_position):
         fight = battle.Battle(self.player_character)
-        print("You meet {}". format(colors.ENEMY + str(fight.monster.name) + colors.RESET))
+        print("\nYou meet {}\n". format(colors.ENEMY + str(fight.monster.name) + colors.RESET))
         is_figthing = True
 
         while is_figthing:
@@ -97,12 +103,10 @@ class Game():
         util.clear_screen()
         self.board.display_board()
 
-
     def get_help(self, **SUPPORTED_KEYS):
         util.clear_screen()
         self.board.display_board()
         ui.display_help(**SUPPORTED_KEYS)
-
 
     def get_char_details(self):
         util.clear_screen()
@@ -137,7 +141,7 @@ class Game():
                 self.player_character.update_armor()
         else:
             print(f"You cannot equip {user_input}.")
-    
+
     def use_item(self):
         user_input = input("What item would you like to use?: ")
         if user_input in self.player_character.inventory.keys():

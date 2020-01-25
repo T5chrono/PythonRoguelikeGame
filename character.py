@@ -1,5 +1,8 @@
 from weapons_armor_items import weapons, armors, powerups
+import colors
+import player_races_and_classes
 import util
+import ui
 
 
 class Character:
@@ -7,8 +10,8 @@ class Character:
     def __init__(self, name):
         # FLUFF
         self.name = name
-        self.character_class = "Bug Slayer"
-        self.race = "Android"
+        self.character_class = ""
+        self.character_race = ""
         self.inventory = {}
         # LEVELING UP
         self.level = 1
@@ -39,7 +42,7 @@ class Character:
         self.dodge_chance = int(self.dexterity - self.armor // 2)
 
     def __repr__(self):
-        return f'Name: {self.name} ({self.race} the {self.character_class}) \n' \
+        return f'Name: {self.name} ({self.character_race} the {self.character_class}) \n' \
                f'EXP: {self.current_experience} -> Level {self.level} \n' \
                f'HP: {self.current_hp} / {self.max_hp} \n' \
                f'MANA: {self.current_mana} / {self.max_mana} \n\n' \
@@ -64,9 +67,10 @@ class Character:
             self.next_lvl_experience += (self.current_experience)*multiplier_for_exp
             self.points += (self.level * mutliplier_for_points)
             self.current_hp = self.max_hp
-        
+
     def distribute_points(self):
-        print("You have {} points to distribute\nYour strengh is {} next point costs {}\nYour dexterity is {} next point costs {}\nYour intelligence is {} next point costs {}\n Your max HP is {} next point costs {}".format(self.points, self.strength, self.strength*2, self.dexterity, self.dexterity*2, self.intelligence, self.intelligence*2, self.max_hp, (self.max_hp-9)*2))
+        util.clear_screen()
+        print("\nYou have {} points to distribute\nYour strengh is {} next point costs {}\nYour dexterity is {} next point costs {}\nYour intelligence is {} next point costs {}\n Your max HP is {} next point costs {}".format(self.points, self.strength, self.strength*2, self.dexterity, self.dexterity*2, self.intelligence, self.intelligence*2, self.max_hp, (self.max_hp-9)*2))
         print("Push q to quit, push s, d, i, h to upgrade strenght, dexterity, intelligence or HP. Push p to show your points")
         is_distributing = True
         while is_distributing:
@@ -139,3 +143,34 @@ class Character:
         if self.current_hp > self.max_hp:
             self.current_hp = self.max_hp
 
+    def get_character_type(self):
+        while self.character_race == "":
+            ui.display_list_details("Please find below list of races:", list(player_races_and_classes.ALL_POSSIBLE_RACES))
+            self.character_race = ui.get_user_value("\nWhich one do you want? ", "")
+            if self.character_race not in player_races_and_classes.ALL_POSSIBLE_RACES:
+                ui.display_message(f"There is no race {self.character_race}", ui.ERROR)
+                self.character_race = ""
+
+        while self.character_class == "":
+            ui.display_list_details("Please find below list of classes:", list(player_races_and_classes.ALL_POSSIBLE_CLASSES))
+            self.character_class = ui.get_user_value("\nWhich one do you want? ", "")
+            if self.character_class not in player_races_and_classes.ALL_POSSIBLE_CLASSES:
+                ui.display_message(f"There is no class {self.character_class}", ui.ERROR)
+                self.character_class = ""
+
+        return self.character_race, self.character_class
+
+    def add_character_type(self, race_name_class_name):
+        race_name, class_name = race_name_class_name
+        my_race = player_races_and_classes.CharacterRace(race_name, player_races_and_classes.ALL_POSSIBLE_RACES[race_name])
+        my_class = player_races_and_classes.CharacterClass(class_name, player_races_and_classes.ALL_POSSIBLE_CLASSES[class_name])
+
+        self.strength += my_class.strength + my_race.strength
+        self.dexterity += my_class.dexterity + my_race.dexterity
+        self.intelligence += my_class.intelligence + my_race.intelligence
+        self.max_hp += my_class.max_hp + my_race.max_hp
+        self.current_hp += my_class.current_hp + my_race.current_hp
+        self.max_mana += my_class.max_mana + my_race.max_mana
+        self.current_mana += my_class.current_mana + my_race.current_mana
+
+        ui.display_message(str(my_race.description) + " " + str(my_class.description))
