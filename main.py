@@ -1,40 +1,75 @@
+from os import system
 import util
 import game
 import ui
 from weapons_armor_items import weapons, weapon_names, armors, armor_names, powerups, powerups_names
 from inventory import print_table, add_to_inventory, remove_from_inventory, random_item, ITEMS
 
+SUPPORTED_KEYS = {
+    "player movement": ["w", "s", "a", "d"],
+    "character details": "c",
+    "inventory": "i",
+    "pick up sth": "p",
+    "equip sth": "e",
+    "use sth": "u",
+    "quit": "q",
+    "help": "h"
+}
 
 def main():
+    system("clear")
     board_created = False
 
     while not board_created:
         try:
             engine = game.Game()
-            board_created = True
         except TypeError:
             print("Enter a number!")
+        else:
+            board_created = True
 
+    system("clear")
     engine.board.display_board()
+    # ui.display_help(**SUPPORTED_KEYS)
 
-    while engine.is_running:
-        player_move = util.key_pressed()
-        if player_move in ["w", "s", "a", "d"]:
+    player_move = 'h'
+    while player_move != SUPPORTED_KEYS['quit']:
+        if player_move in SUPPORTED_KEYS['player movement']:
             engine.handle_movement_effects(player_move)
-        elif player_move == "c":
-            ui.display_character_details(**engine.player_character.__dict__)
-        elif player_move == "h":
-            display_help()
-        elif player_move == "i":
-            print_table(engine.player_character.inventory)
-        elif player_move == "p":
+        elif player_move == SUPPORTED_KEYS['character details']:
+            get_char_details(engine)
+        elif player_move == SUPPORTED_KEYS['help']:
+            get_help(engine)
+        elif player_move == SUPPORTED_KEYS['inventory']:
+            get_inventory(engine)
+        elif player_move == SUPPORTED_KEYS['pick up sth']:
             pick_up_something(engine)
-        elif player_move == "e":
+        elif player_move == SUPPORTED_KEYS['equip sth']:
             equip(engine)
-        elif player_move == "u":
+        elif player_move == SUPPORTED_KEYS['use sth']:
             use_item(engine)
-        elif player_move == "q":
-            engine.is_running = False
+        player_move = util.key_pressed()
+    else:
+        ui.display_goodbye()
+
+
+# clean up screen when you display info
+def get_help(engine):
+    system("clear")
+    engine.board.display_board()
+    ui.display_help(**SUPPORTED_KEYS)
+
+
+def get_char_details(engine):
+    system("clear")
+    engine.board.display_board()
+    ui.display_character_details(**engine.player_character.__dict__)
+
+
+def get_inventory(engine):
+    system("clear")
+    engine.board.display_board()
+    print_table(engine.player_character.inventory)
 
 
 # Extracted methods from loop engine.is_running
@@ -90,17 +125,6 @@ def use_item(engine):
             engine.player_character.heal_mana()
         else:
             print(f"You cannot use {user_input}.")
-
-
-def display_help():
-    print("This is what you can do:\n"
-          "move -> w / s / a / d\n"
-          "check your stats -> c\n"
-          "check you inventory -> i\n"
-          "pick up items -> p\n"
-          "equip various weapons and armor -> e"
-          "use items -> u"
-          "quit the game -> q")
 
 
 if __name__ == '__main__':

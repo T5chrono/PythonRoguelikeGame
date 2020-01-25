@@ -40,6 +40,7 @@ def print_table(inventory, order='empty'):
     column_widths = calculate_column_widths(inventory)
     inventory = sort_dictionary(inventory, order)
 
+    print()
     print_line(column_widths)
     print('item name'.rjust(column_widths[0]) + ' | ' + 'count'.rjust(column_widths[1]))
     print_line(column_widths)
