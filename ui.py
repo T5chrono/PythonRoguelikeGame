@@ -2,19 +2,6 @@ def get_character_name():
     name = input("Please provide the name of your character! :) ")
     return name if name != "" else "Keanu"
 
-
-def display_board(board):
-    '''
-    Displays complete game board on the screen
-
-    Returns:
-    Nothing
-    '''
-
-    # engine.board.display_board()
-    pass
-
-
 def display_help(SUPPORTED_KEYS):
     print("\nPlease find available options below!")
     for k, v in SUPPORTED_KEYS.items():
