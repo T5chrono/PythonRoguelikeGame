@@ -33,7 +33,7 @@ class Game():
     def create_character(self, character_name):
         self.player_character = character.Character(character_name)
 
-    def handle_actions(self):
+    def handle_action(self):
         player_move = util.key_pressed()
 
         if player_move in Game.SUPPORTED_KEYS['Player movement']:

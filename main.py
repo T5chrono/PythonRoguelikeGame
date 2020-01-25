@@ -1,24 +1,17 @@
-import os
 import util
 import game
 import ui
-from pygame import mixer
-
-
-
-MUSIC_FILE = "main_theme.wav"
+import music
 
 
 def main():
-    board_created = False
     util.clear_screen()
 
-    mixer.init()
-    mixer.music.load(os.getcwd() + "/" + MUSIC_FILE)
-    mixer.music.play()
-
+    music.Music.play_music()
+    
     character_name = ui.get_character_name()
 
+    board_created = False
     while not board_created:
         try:
             engine = game.Game()
@@ -32,7 +25,7 @@ def main():
     engine.board.display_board()
 
     while engine.is_running:
-        engine.handle_actions()
+        engine.handle_action()
        
     ui.display_goodbye(engine.player_character.name)
 
