@@ -71,6 +71,7 @@ class Game():
         self.player_character.current_experience += event.exp
         self.player_character.correct_current_hp_to_max()
         self.player_character.check_if_lvl_up()
+        self.board.make_tile_empty(new_position)
         print(event.description)
 
     def handle_entire_battle(self, new_position):
