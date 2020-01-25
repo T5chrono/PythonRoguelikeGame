@@ -12,10 +12,51 @@ from inventory import print_table, add_to_inventory, remove_from_inventory, rand
 
 class Game():
 
+    SUPPORTED_KEYS = {
+    "Player movement": ["w", "s", "a", "d"],
+    "Character details": "c",
+    "Inventory": "i",
+    "Pick up sth": "p",
+    "Equip sth": "e",
+    "Use sth": "u",
+    "Quit": "q",
+    "Help": "h",
+    "Distribute exp points": "l",
+    "Examine the item": "x"}
+
     def __init__(self, character_name="Keanu"):
         self.is_running = True
+
+    def create_new_board(self):
         self.board = board.Board(Game.initialize_board(self, "height"), Game.initialize_board(self, "width"))
+    
+    def create_character(self, character_name):
         self.player_character = character.Character(character_name)
+
+    def handle_actions(self):
+        player_move = util.key_pressed()
+
+        if player_move in Game.SUPPORTED_KEYS['Player movement']:
+            self.handle_movement_effects(player_move)
+        elif player_move == Game.SUPPORTED_KEYS['Character details']:
+            self.get_char_details()
+        elif player_move == Game.SUPPORTED_KEYS['Help']:
+            self.get_help(**Game.SUPPORTED_KEYS)
+        elif player_move == Game.SUPPORTED_KEYS['Inventory']:
+            self.get_inventory()
+        elif player_move == Game.SUPPORTED_KEYS['Pick up sth']:
+            self.pick_up_something()
+        elif player_move == Game.SUPPORTED_KEYS['Equip sth']:
+            self.equip()
+        elif player_move == Game.SUPPORTED_KEYS['Use sth']:
+            self.use_item()
+        elif player_move == Game.SUPPORTED_KEYS["Distribute exp points"]:
+            self.player_character.distribute_points()
+            self.display_after_key_press()
+        elif player_move == Game.SUPPORTED_KEYS["Examine the item"]:
+            self.examine_item()
+        elif player_move == Game.SUPPORTED_KEYS["Quit"]:
+            self.is_running = False
 
     def initialize_board(self, dimension):
 
