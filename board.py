@@ -1,5 +1,15 @@
 from enum import Enum
 from random import randint
+from colored import fg, attr
+
+
+PLAYER_COLOR = fg('cyan_1')
+MONSTER_COLOR = fg('red')
+ITEM_COLOR = fg('light_yellow')
+EVENT_COLOR = fg('green')
+GATE_COLOR = fg('light_magenta')
+EMPTY_COLOR = fg('dark_gray')
+RESET_COLOR = attr('reset')
 
 
 class TileTypes(Enum):
@@ -156,15 +166,14 @@ class Board():
         return current_tiles
 
     def display_board(self):
-
         tiles_print_mapping = {
-            "EMPTY": ".",
-            "EVENT": "!",
-            "MONSTER": "X",
-            "ITEM": "$",
+            "EMPTY": EMPTY_COLOR + "." + RESET_COLOR,
+            "EVENT": EVENT_COLOR + "!" + RESET_COLOR,
+            "MONSTER": MONSTER_COLOR + "X" + RESET_COLOR,
+            "ITEM": ITEM_COLOR + "$" + RESET_COLOR,
             "WALL": "#",
-            "PLAYER": "@",
-            "GATE": "G"
+            "PLAYER": PLAYER_COLOR + "@" + RESET_COLOR,
+            "GATE": GATE_COLOR + "G" + RESET_COLOR
             }
         board_width = len(self.tiles[0]) + 2
         edge = "#"

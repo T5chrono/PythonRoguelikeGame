@@ -1,4 +1,4 @@
-from os import system
+import os
 import util
 import game
 import ui
@@ -16,8 +16,9 @@ SUPPORTED_KEYS = {
     "help": "h"
 }
 
+
 def main():
-    system("clear")
+    clear_screen()
     board_created = False
 
     while not board_created:
@@ -28,7 +29,7 @@ def main():
         else:
             board_created = True
 
-    system("clear")
+    clear_screen()
     engine.board.display_board()
     # ui.display_help(**SUPPORTED_KEYS)
 
@@ -54,20 +55,24 @@ def main():
 
 
 # clean up screen when you display info
+def clear_screen():
+    return os.system('tput reset')
+
+
 def get_help(engine):
-    system("clear")
+    clear_screen()
     engine.board.display_board()
     ui.display_help(**SUPPORTED_KEYS)
 
 
 def get_char_details(engine):
-    system("clear")
+    clear_screen()
     engine.board.display_board()
     ui.display_character_details(**engine.player_character.__dict__)
 
 
 def get_inventory(engine):
-    system("clear")
+    clear_screen()
     engine.board.display_board()
     print_table(engine.player_character.inventory)
 
