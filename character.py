@@ -1,4 +1,5 @@
 from weapons_armor_items import weapons, armors, powerups
+import util
 
 
 class Character:
@@ -61,11 +62,49 @@ class Character:
             print("Congratulations! You levelled up!")
             self.next_lvl_experience += (self.current_experience)*multiplier_for_exp
             self.points += (self.level * mutliplier_for_points)
+            self.current_hp = self.max_hp
         
     def distribute_points(self):
-        pass
-
-
+        print("You have {} points to distribute\nYour strengh is {} next point costs {}\nYour dexterity is {} next point costs {}\nYour intelligence is {} next point costs {}\n Your max HP is {} next point costs {}".format(self.points, self.strength, self.strength*2, self.dexterity, self.dexterity*2, self.intelligence, self.intelligence*2, self.max_hp, (self.max_hp-9)*2))
+        print("Push q to quit, push s, d, i, h to upgrade strenght, dexterity, intelligence or HP. Push p to show your points")
+        is_distributing = True
+        while is_distributing:
+            player_choice = util.key_pressed()
+            if player_choice == "s":
+                if self.points >= self.strength*2:
+                    self.points -= self.strength*2
+                    self.strength += 1
+                    print("You upgraded strenght")
+                else:
+                    print("You don't have enough points to upgrade!")
+            elif player_choice == "d":
+                if self.points >= self.dexterity*2:
+                    self.points -= self.dexterity*2
+                    self.dexterity += 1
+                    print("You upgraded dexterity")
+                else:
+                    print("You don't have enough points to upgrade!")
+            elif player_choice == "i":
+                if self.points >= self.intelligence*2:
+                    self.points -= self.intelligence*2
+                    self.intelligence += 1
+                    print("You upgraded intelligence")
+                else:
+                    print("You don't have enough points to upgrade!")
+            elif player_choice == "h":
+                if self.points >= (self.max_hp-9)*2:
+                    self.points -= (self.max_hp-9)*2
+                    self.max_hp += 1
+                    self.current_hp += 1
+                    print("You upgraded HP")
+                else:
+                    print("You don't have enough points to upgrade!")
+            elif player_choice == "p":
+                print("You have {} points left".format(self.points))
+            elif player_choice == "q":
+                is_distributing = False
+            else:
+                print("Incorrect key")
 
     def update_player(self):
         self.update_attack()

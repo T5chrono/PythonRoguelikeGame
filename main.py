@@ -14,7 +14,8 @@ SUPPORTED_KEYS = {
     "equip sth": "e",
     "use sth": "u",
     "quit": "q",
-    "help": "h"
+    "help": "h",
+    "distribute exp points": "l",
 }
 
 MUSIC_FILE = "music.wav"
@@ -62,6 +63,9 @@ def main():
             equip(engine)
         elif player_move == SUPPORTED_KEYS['use sth']:
             use_item(engine)
+        elif player_move == SUPPORTED_KEYS["distribute exp points"]:
+            engine.player_character.distribute_points()
+            engine.display_after_key_press()
         player_move = util.key_pressed()
     else:
         ui.display_goodbye()
