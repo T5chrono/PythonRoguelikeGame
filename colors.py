@@ -12,6 +12,7 @@ EVENT = fg('light_green')
 GATE = fg('orchid_1')
 EMPTY = fg('dark_green')
 WALL = fg('dark_gray')
+BOSS = fg('orchid_2')
 
 # battle.py
 ENEMY = fg('orange_red_1')

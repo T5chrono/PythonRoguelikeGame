@@ -4,23 +4,65 @@ import battle
 import character
 import ui
 import colors
-from weapons_armor_items import weapons, weapon_names, armors, armor_names, powerups, powerups_names, common_items, common_items_names
+from weapons_armor_items import weapons, weapon_names, armors, armor_names, powerups, powerups_names, common_items, \
+    common_items_names
 import events
 from inventory import print_table, add_to_inventory, remove_from_inventory, random_item, ITEMS
 
 
 class Game():
 
-    def __init__(self, character_name = "Keanu"):
+    SUPPORTED_KEYS = {
+    "Player movement": ["w", "s", "a", "d"],
+    "Character details": "c",
+    "Inventory": "i",
+    "Pick up sth": "p",
+    "Equip sth": "e",
+    "Use sth": "u",
+    "Quit": "q",
+    "Help": "h",
+    "Distribute exp points": "l",
+    "Examine the item": "x"}
+
+    def __init__(self, character_name="Keanu"):
         self.is_running = True
-        self.board = board.Board(Game.initialize_board(self, "height"), Game.initialize_board(self, "width"))
+
+    def create_new_board(self):
+        self.board = board.Board(self.get_board_dimension("height"), self.get_board_dimension("width"))
+    
+    def create_character(self, character_name):
         self.player_character = character.Character(character_name)
 
     def initialize_player_class_and_race(self):
         player_race, player_class = self.player_character.get_character_type()
         self.player_character.add_character_type((player_race, player_class))
 
-    def initialize_board(self, dimension):
+    def handle_action(self):
+        player_move = util.key_pressed()
+
+        if player_move in Game.SUPPORTED_KEYS['Player movement']:
+            self.handle_movement_effects(player_move)
+        elif player_move == Game.SUPPORTED_KEYS['Character details']:
+            self.get_char_details()
+        elif player_move == Game.SUPPORTED_KEYS['Help']:
+            self.get_help(**Game.SUPPORTED_KEYS)
+        elif player_move == Game.SUPPORTED_KEYS['Inventory']:
+            self.get_inventory()
+        elif player_move == Game.SUPPORTED_KEYS['Pick up sth']:
+            self.pick_up_something()
+        elif player_move == Game.SUPPORTED_KEYS['Equip sth']:
+            self.equip()
+        elif player_move == Game.SUPPORTED_KEYS['Use sth']:
+            self.use_item()
+        elif player_move == Game.SUPPORTED_KEYS["Distribute exp points"]:
+            self.player_character.distribute_points()
+            self.display_after_key_press()
+        elif player_move == Game.SUPPORTED_KEYS["Examine the item"]:
+            self.examine_item()
+        elif player_move == Game.SUPPORTED_KEYS["Quit"]:
+            self.is_running = False
+
+    def get_board_dimension(self, dimension):
 
         dimension_size = 0
 
@@ -51,9 +93,12 @@ class Game():
                 elif self.board.check_if_gate(new_position):
                     user_input = input(f"\n{colors.GATE}Do you want to enter the gate? (y/n) {colors.RESET}")
                     if user_input.lower() == 'y':
-                        self.board.generate_new_boad()
-                        util.clear_screen()
-                        self.board.display_board()
+                        if self.board.board_level < 2:
+                            self.board.generate_new_boad()
+                            util.clear_screen()
+                            self.board.display_board()
+                        else:
+                            self.board.generate_boss_level()
 
                 else:
                     self.move(new_position)
@@ -68,6 +113,9 @@ class Game():
         self.board.move_player(new_position)
         util.clear_screen()
         self.board.display_board()
+        if self.board.is_boss:
+            self.board.move_boss()
+        print(self.board.tiles[new_position[0]][new_position[1]].descirption)
 
     def handle_event_effects(self, new_position):
         event = events.Event.get_random_event()
@@ -79,6 +127,7 @@ class Game():
         self.player_character.correct_current_hp_to_max()
         self.player_character.check_if_lvl_up()
         self.board.make_tile_empty(new_position)
+        self.is_running = self.player_character.current_hp > 0
         print(event.description)
 
     def handle_entire_battle(self, new_position):
@@ -182,9 +231,9 @@ class Game():
 
     def pick_up_something(self):
         if self.board.tiles[self.board.player_tile_position[0]][
-                          self.board.player_tile_position[1]].tile_type == "ITEM":
+            self.board.player_tile_position[1]].tile_type == "ITEM":
             add_to_inventory(self.player_character.inventory, random_item(ITEMS))
             self.board.tiles[self.board.player_tile_position[0]][
-                           self.board.player_tile_position[1]].tile_type = "EMPTY"
+                self.board.player_tile_position[1]].tile_type = "EMPTY"
         else:
             print("There is nothing here.")
