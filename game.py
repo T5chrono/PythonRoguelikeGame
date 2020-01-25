@@ -28,7 +28,7 @@ class Game():
         self.is_running = True
 
     def create_new_board(self):
-        self.board = board.Board(Game.initialize_board(self, "height"), Game.initialize_board(self, "width"))
+        self.board = board.Board(self.get_board_dimension("height"), self.get_board_dimension("width"))
     
     def create_character(self, character_name):
         self.player_character = character.Character(character_name)
@@ -58,7 +58,7 @@ class Game():
         elif player_move == Game.SUPPORTED_KEYS["Quit"]:
             self.is_running = False
 
-    def initialize_board(self, dimension):
+    def get_board_dimension(self, dimension):
 
         dimension_size = 0
 
