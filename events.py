@@ -2,7 +2,7 @@ from random import choice
 
 class Event():
 
-    def __init__(self, type, dex, strt, exp, intl, hp, desc):
+    def __init__(self, type, dex, strt, exp, intl, hp, sound_file, desc):
         self.type = type
         self.dexterity = dex
         self.strenght = strt
@@ -10,6 +10,7 @@ class Event():
         self.intelligence = intl
         self.hp = hp
         self.description = desc
+        self.sound_file = sound_file
 
     def get_random_event():
         event = choice(EventPool.events)
@@ -17,7 +18,7 @@ class Event():
 
 class EventPool():
 
-    events = [Event(["HP"], 0, 0, 0, 0, 5, "You hear DnD players singing 'Diggy, diggy hole'. You approach slowly and join their party. They share snacks with you. You regain 5 HP"),
-                Event(["HP"], 0, 0, 0, 0, -2, "You fall asleep on the table. A manager notices it and yells at you. You loose 2 HP")]
+    events = [Event(["HP"], 0, 0, 0, 0, 5, "diggy.wav","You hear DnD players singing 'Diggy, diggy hole'. You approach slowly and join their party. They share snacks with you. You regain 5 HP"),
+                Event(["HP"], 0, 0, 0, 0, -2, "diggy.wav", "You fall asleep on the table. A manager notices it and yells at you. You loose 2 HP")]
 
 
