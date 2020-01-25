@@ -1,3 +1,6 @@
+import colors
+
+
 def get_character_name():
     name = input("Please provide the name of your character! :) ")
     return name if name != "" else "Keanu"
@@ -27,7 +30,7 @@ def is_instance_userdefined_and_newclass(inst):
 
 
 def display_added_item(*args):
-    print("Congratulations! You found ", *args, "!", sep="")
+    print("Congratulations! You found " + colors.PLAYER, *args, colors.RESET + "!", sep="")
 
 
 def display_goodbye(player_name):

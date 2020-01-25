@@ -1,3 +1,5 @@
+import colors
+
 import monster
 import random
 import util
@@ -30,24 +32,23 @@ class Battle():
                 monster_damage = self.calculate_damage(self.monster.attack, self.player_character.armor)
                 self.player_character.current_hp -= monster_damage
                 print("{} inflicted {} damage. {} has {} HP left".format(
-                    self.monster.name, monster_damage, self.player_character.name, self.player_character.current_hp
+                    self.monster.name, colors.ENEMY + str(monster_damage) + colors.RESET, self.player_character.name, colors.PLAYER + str(self.player_character.current_hp) + colors.RESET
                     ))
             else:
-                print("{} dodged the attack!".format(self.player_character.name))
-
+                print("{} dodged the attack!".format(colors.PLAYER + str(self.player_character.name) + colors.RESET))
             self.character_initiative += self.player_character.speed
             player_alive = self.check_if_player_alive()
             return player_alive
 
         elif self.monster_initiative <= self.character_initiative:
-            print("Your turn! You want to run (r) ot attack (a)?")
+            print("Your turn! You want to run " + colors.ACTION + "(r)" + colors.RESET + " or attack " + colors.ACTION + "(a)" + colors.RESET + "?")
             player_choice = ""
 
             while player_choice not in ["r", "a"]:
                 player_choice = util.key_pressed()
 
                 if player_choice == "r":
-                    print("{} escaped safely from {}".format(self.player_character.name, self.monster.name))
+                    print("{} escaped safely from {}".format(colors.PLAYER + str(self.player_character.name) + colors.RESET, self.monster.name))
                     return False
 
                 else:
@@ -56,10 +57,10 @@ class Battle():
                         player_damage = self.calculate_damage(self.player_character.attack, self.monster.armor)
                         self.monster_hp -= player_damage
                         print("{} inflicted {} damage. {} has {} HP left".format(
-                            self.player_character.name, player_damage, self.monster.name, self.monster_hp
+                            self.player_character.name, colors.PLAYER + str(player_damage) + colors.RESET, self.monster.name, colors.ENEMY + str(self.monster_hp) + colors.RESET
                             ))
                     else:
-                        print("{} dodged the attack".format(self.monster.name))
+                        print("{} dodged the attack".format(colors.ENEMY + str(self.monster.name) + colors.RESET))
 
                     self.monster_initiative += self.monster.speed
                     monster_alive = self.check_if_monster_alive()
@@ -69,14 +70,14 @@ class Battle():
         if self.player_character.current_hp > 0:
             return True
         else:
-            print("Your character died!")
+            print(colors.ENEMY + "Your character died!" + colors.RESET)
             return False
 
     def check_if_monster_alive(self):
         if self.monster_hp > 0:
             return True
         else:
-            print("Your character killed {} and gained {} EXP!".format(self.monster.name, self.monster.defeat_exp))
+            print("Your character killed {} and gained {} EXP!".format(colors.PLAYER + str(self.monster.name) + colors.RESET, colors.PLAYER + str(self.monster.defeat_exp) + colors.RESET))
             self.player_character.current_experience += self.monster.defeat_exp
             return False
 

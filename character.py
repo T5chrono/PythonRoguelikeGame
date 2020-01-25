@@ -59,7 +59,7 @@ class Character:
         mutliplier_for_points = 2
         if self.current_experience >= self.next_lvl_experience:
             self.level += 1
-            print("Congratulations! You levelled up!")
+            print(colors.ACTION + "Congratulations! You levelled up!" + colors.RESET)
             self.next_lvl_experience += (self.current_experience)*multiplier_for_exp
             self.points += (self.level * mutliplier_for_points)
             self.current_hp = self.max_hp

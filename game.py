@@ -3,6 +3,7 @@ import util
 import battle
 import character
 import ui
+import colors
 from weapons_armor_items import weapons, weapon_names, armors, armor_names, powerups, powerups_names
 from inventory import print_table, add_to_inventory, remove_from_inventory, random_item, ITEMS
 
@@ -35,7 +36,7 @@ class Game():
 
                 elif self.board.check_if_item(new_position):
                     self.move(new_position)
-                    print("There is something here. Do you want to pick it up? (press \"p\")")
+                    print("There is " + colors.ITEM + "something" + colors.RESET + " here. Do you want to pick it up? (press '" + colors.ACTION + "p" + colors.RESET + "')")
 
                 else:
                     self.move(new_position)
@@ -53,7 +54,7 @@ class Game():
 
     def handle_entire_battle(self, new_position):
         fight = battle.Battle(self.player_character)
-        print("You meet {}". format(fight.monster.name))
+        print("You meet {}". format(colors.ENEMY + str(fight.monster.name) + colors.RESET))
         is_figthing = True
 
         while is_figthing:
