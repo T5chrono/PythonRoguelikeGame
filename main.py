@@ -12,12 +12,13 @@ SUPPORTED_KEYS = {
     "Inventory": "i",
     "Pick up sth": "p",
     "Equip sth": "e",
+    "Open equipment": "o",
     "Use sth": "u",
     "Quit": "q",
     "Help": "h"
 }
 
-MUSIC_FILE = "pokemon.wav"
+MUSIC_FILE = "101-opening.wav"
 
 
 def main():
@@ -60,6 +61,8 @@ def main():
             equip(engine)
         elif player_move == SUPPORTED_KEYS['Use sth']:
             use_item(engine)
+        elif player_move == SUPPORTED_KEYS['Open equipment']:
+            print(engine.player_character)
         elif player_move == SUPPORTED_KEYS["distribute exp points"]:
             engine.player_character.distribute_points()
             engine.display_after_key_press()
