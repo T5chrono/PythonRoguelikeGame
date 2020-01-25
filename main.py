@@ -62,6 +62,7 @@ def main():
             use_item(engine)
         player_move = util.key_pressed()
     else:
+        engine.is_running = False
         ui.display_goodbye()
 
 
