@@ -4,14 +4,15 @@ import battle
 import character
 import ui
 import colors
-from weapons_armor_items import weapons, weapon_names, armors, armor_names, powerups, powerups_names, common_items, common_items_names
+from weapons_armor_items import weapons, weapon_names, armors, armor_names, powerups, powerups_names, common_items, \
+    common_items_names
 import events
 from inventory import print_table, add_to_inventory, remove_from_inventory, random_item, ITEMS
 
 
 class Game():
 
-    def __init__(self, character_name = "Keanu"):
+    def __init__(self, character_name="Keanu"):
         self.is_running = True
         self.board = board.Board(Game.initialize_board(self, "height"), Game.initialize_board(self, "width"))
         self.player_character = character.Character(character_name)
@@ -47,7 +48,10 @@ class Game():
                 elif self.board.check_if_gate(new_position):
                     user_input = input("Do you want to enter the gate: ")
                     if user_input == 'y':
-                        self.board.generate_new_boad()
+                        if self.board.board_level < 3:
+                            self.board.generate_new_boad()
+                        else:
+                            self.board.boss_level()
 
                 else:
                     self.move(new_position)
@@ -97,12 +101,10 @@ class Game():
         util.clear_screen()
         self.board.display_board()
 
-
     def get_help(self, **SUPPORTED_KEYS):
         util.clear_screen()
         self.board.display_board()
         ui.display_help(**SUPPORTED_KEYS)
-
 
     def get_char_details(self):
         util.clear_screen()
@@ -137,7 +139,7 @@ class Game():
                 self.player_character.update_armor()
         else:
             print(f"You cannot equip {user_input}.")
-    
+
     def use_item(self):
         user_input = input("What item would you like to use?: ")
         if user_input in self.player_character.inventory.keys():
@@ -178,9 +180,9 @@ class Game():
 
     def pick_up_something(self):
         if self.board.tiles[self.board.player_tile_position[0]][
-                          self.board.player_tile_position[1]].tile_type == "ITEM":
+            self.board.player_tile_position[1]].tile_type == "ITEM":
             add_to_inventory(self.player_character.inventory, random_item(ITEMS))
             self.board.tiles[self.board.player_tile_position[0]][
-                           self.board.player_tile_position[1]].tile_type = "EMPTY"
+                self.board.player_tile_position[1]].tile_type = "EMPTY"
         else:
             print("There is nothing here.")

@@ -65,6 +65,10 @@ class Board():
         self.gate_tile_position = Board.place_gate(self)
         self.board_level += 1
 
+    def boss_level(self):
+        self.tiles = []
+        self.player_tile_position = Board.place_player(self)
+
     def get_random_map_path(self):
         rooms_number = 18
         random_number = randint(1, rooms_number)
