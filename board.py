@@ -203,7 +203,7 @@ class Board():
             position_x = randint(0, max_index_x)
             position_y = randint(0, max_index_y)
 
-            if self.tiles[position_y][position_x].is_passable:
+            if self.tiles[position_y][position_x].is_passable and not self.tiles[position_y][position_x].is_player:
                 random_passable_tile_index = [position_y, position_x]
                 incorrect_position = False
 
@@ -218,6 +218,13 @@ class Board():
         player_index = Board.get_random_passable_position(self)
         self.tiles[player_index[0]][player_index[1]].is_player = True
         return player_index
+
+    def place_random_monster(self):
+        chances_to_spawn_monster = 30
+        if randint(0,100) < chances_to_spawn_monster:
+            monster_index = self.get_random_passable_position()
+            self.tiles[monster_index[0]][monster_index[1]].tile_type = "MONSTER"
+            print("A new monster arrived!")
 
 
 def read_file(filename):
