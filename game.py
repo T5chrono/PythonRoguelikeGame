@@ -3,8 +3,9 @@ import util
 import battle
 import character
 import ui
-from weapons_armor_items import weapons, weapon_names, armors, armor_names, powerups, powerups_names
+from weapons_armor_items import weapons, weapon_names, armors, armor_names, powerups, powerups_names, common_items, common_items_names
 from inventory import print_table, add_to_inventory, remove_from_inventory, random_item, ITEMS
+
 
 class Game():
 
@@ -113,7 +114,6 @@ class Game():
                 self.player_character.update_armor()
         else:
             print(f"You cannot equip {user_input}.")
-
     
     def use_item(self):
         user_input = input("What item would you like to use?: ")
@@ -124,8 +124,34 @@ class Game():
         elif user_input == "Mana potion":
             remove_from_inventory(self.player_character.inventory, ["Mana potion"])
             self.player_character.heal_mana()
+        elif not user_input:
+            print("You cannot equip nothing.")
         else:
             print(f"You cannot use {user_input}.")
+
+    def examine_item(self):
+        user_input = input("What item would you like to examine?: ")
+        if user_input in self.player_character.inventory.keys():
+            if user_input in weapon_names:
+                for i in range(len(weapon_names)):
+                    if user_input == weapon_names[i]:
+                        print(f"{weapons[i].status} (Attack: + {weapons[i].attack}).")
+            elif user_input in armor_names:
+                for i in range(len(armor_names)):
+                    if user_input == armor_names[i]:
+                        print(f"{armors[i].status} (Armor: + {armors[i].armor}).")
+            elif user_input in powerups_names:
+                for i in range(len(powerups_names)):
+                    if user_input == powerups_names[i]:
+                        print(powerups[i].status)
+            elif user_input in common_items_names:
+                for i in range(len(common_items_names)):
+                    if user_input == common_items_names[i]:
+                        print(common_items[i].status)
+        elif not user_input:
+            print("You cannot examine nothing.")
+        else:
+            print(f"You cannot examine {user_input}.")
 
     def pick_up_something(self):
         if self.board.tiles[self.board.player_tile_position[0]][

@@ -2,8 +2,6 @@ import os
 import util
 import game
 import ui
-from weapons_armor_items import weapons, weapon_names, armors, armor_names, powerups, powerups_names
-from inventory import print_table, add_to_inventory, remove_from_inventory, random_item, ITEMS
 from pygame import mixer
 
 SUPPORTED_KEYS = {
@@ -16,6 +14,7 @@ SUPPORTED_KEYS = {
     "Quit": "q",
     "Help": "h",
     "Distribute exp points": "l",
+    "Examine the item": "x"
 }
 
 MUSIC_FILE = "101-opening.wav"
@@ -64,6 +63,8 @@ def main():
         elif player_move == SUPPORTED_KEYS["Distribute exp points"]:
             engine.player_character.distribute_points()
             engine.display_after_key_press()
+        elif player_move == SUPPORTED_KEYS["Examine the item"]:
+            engine.examine_item()
         player_move = util.key_pressed()
     else:
         ui.display_goodbye(engine.player_character.name)
