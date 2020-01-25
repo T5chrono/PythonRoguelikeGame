@@ -21,10 +21,11 @@ class Monster():
 
 
 class MonsterPool():
-
+    
     # monster_properties = [name, difficulty, current_hp, armor, attack, defeat_exp, speed, dodge_chance]
 
-    monsters = [Monster(["Sleepy Corporate Rat", 1, 5, 0, 1, 1, 5, 1]),
-                Monster(["Hungry Cat", 1, 4, 1, 1, 2, 7, 20]),
-                Monster(["Mildewed Coffee Mug", 1, 2, 1, 1, 1, 4, 5]),
-                Monster(["Angry GoT Fan", 1, 5, 0, 3, 4, 5, 2])]
+    monsters = [Monster(["Sleepy Corporate Rat", 1, 20, 1, 1, 1, 5, 1]),
+                Monster(["Hungry Cat", 1, 8, 3, 1, 2, 7, 20]),
+                Monster(["Mildewed Coffee Mug", 1, 6, 4, 1, 1, 4, 5]),
+                Monster(["Furious GoT Fan", 1, 10, 2, 3, 4, 5, 2]),
+                Monster(["Friendly Co-worker", 1, 10, 2, 8, 4, 10, 10])]
