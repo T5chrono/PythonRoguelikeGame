@@ -1,5 +1,6 @@
 from weapons_armor_items import weapons, armors, powerups
 
+
 class Character:
 
     def __init__(self, name):
@@ -34,7 +35,7 @@ class Character:
         self.speed = self.dexterity * 7
         self.dodge_chance = int(self.dexterity - self.armor // 2)
 
-    def __repr__(self):
+    def _repr(self):
         return f'Name: {self.name} ({self.race} the {self.character_class}) \n' \
                f'EXP: {self.current_experience} -> Level {self.level} \n' \
                f'HP: {self.current_hp} / {self.max_hp} \n' \

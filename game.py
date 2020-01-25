@@ -3,12 +3,13 @@ import util
 import battle
 import character
 
+
 class Game():
 
-    def __init__(self):
+    def __init__(self, character_name = "Keanu"):
         self.is_running = True
         self.board = board.Board(Game.initialize_board(self, "height"), Game.initialize_board(self, "width"))
-        self.player_character = character.Character("Keanu")
+        self.player_character = character.Character(character_name)
 
     def initialize_board(self, dimension):
 
@@ -66,8 +67,3 @@ class Game():
         util.key_pressed()
         util.clear_screen()
         self.board.display_board()
-
-
-
-
-

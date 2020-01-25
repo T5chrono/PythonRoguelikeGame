@@ -20,16 +20,11 @@ class Monster():
             self.current_hp += self.armor - damage
 
 
-
 class MonsterPool():
 
-    ### monster_properties = [name, difficulty, current_hp, armor, attack, defeat_exp, speed, dodge_chance]
+    # monster_properties = [name, difficulty, current_hp, armor, attack, defeat_exp, speed, dodge_chance]
 
     monsters = [Monster(["Sleepy Corporate Rat", 1, 5, 0, 1, 1, 5, 1]),
                 Monster(["Hungry Cat", 1, 4, 1, 1, 2, 7, 20]),
                 Monster(["Mildewed Coffee Mug", 1, 2, 1, 1, 1, 4, 5]),
                 Monster(["Angry GoT Fan", 1, 5, 0, 3, 4, 5, 2])]
-
-
-
-
