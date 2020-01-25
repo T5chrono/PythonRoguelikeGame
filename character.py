@@ -1,5 +1,6 @@
 from weapons_armor_items import weapons, armors, powerups
 
+
 class Character:
 
     def __init__(self, name):

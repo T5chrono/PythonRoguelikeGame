@@ -1,6 +1,7 @@
 from enum import Enum
 from random import randint
 
+
 class TileTypes(Enum):
     EMPTY = 1
     ITEM = 2
@@ -8,6 +9,7 @@ class TileTypes(Enum):
     EVENT = 4
     WALL = 5
     GATE = 6
+
 
 class Tile():
 
@@ -24,14 +26,14 @@ class Tile():
         if self.tile_type == "WALL":
             return False
         else:
-            return True 
+            return True
 
     def determine_tile_type(self, imported_type):
 
-        tiles_types = [".", "■"]   
+        tiles_types = [".", "■"]
 
         if imported_type == tiles_types[0]:
-            rng = randint(1,100)
+            rng = randint(1, 100)
             if rng < self.event_tile_chance:
                 return TileTypes.EVENT.name
             elif rng < self.item_tile_chance:
@@ -44,6 +46,7 @@ class Tile():
             return TileTypes.WALL.name
         else:
             pass
+
 
 class Board():
 
@@ -79,7 +82,6 @@ class Board():
             index[1] += 1
         return index
 
-
     def move_player(self, new_index):
         self.tiles[self.player_tile_position[0]][self.player_tile_position[1]].is_player = False
         self.tiles[new_index[0]][new_index[1]].is_player = True
@@ -95,10 +97,9 @@ class Board():
     def make_tile_empty(self, index):
         self.tiles[index[0]][index[1]].tile_type = TileTypes.EMPTY.name
 
-
     # def check_if_item(self):
     #     return self.tiles[self.player_tile_position[0]][self.player_tile_position[1]].tile_type == "ITEM"
-        
+
     def get_new_index_of_position(self, direction):
         index = self.player_tile_position.copy()
         new_index = Board.get_tile_index_to_move(self, direction, index)
@@ -111,7 +112,7 @@ class Board():
             new_tile = self.tiles[new_index[0]][new_index[1]]
         except:
             raise IndexError("You can't move on wall!")
-        
+
         if new_index[0] < 0 or new_index[1] < 0:
             raise IndexError("You can't move on wall!")
         elif new_tile.is_passable:
@@ -123,7 +124,7 @@ class Board():
 
     def make_board(self):
         temp_width = 0
-        tiles_in_row = 30
+        # tiles_in_row = 30
         current_tiles = []
 
         while temp_width < self.width:
@@ -151,12 +152,20 @@ class Board():
                 temp_height += 1
 
             temp_width += 1
-        
+
         return current_tiles
 
     def display_board(self):
 
-        tiles_print_mapping = {"EMPTY": ".", "EVENT": "!", "MONSTER": "X", "ITEM": "$", "WALL": "#", "PLAYER": "@", "GATE": "G"}
+        tiles_print_mapping = {
+            "EMPTY": ".",
+            "EVENT": "!",
+            "MONSTER": "X",
+            "ITEM": "$",
+            "WALL": "#",
+            "PLAYER": "@",
+            "GATE": "G"
+            }
         board_width = len(self.tiles[0]) + 2
         edge = "#"
 
@@ -200,9 +209,11 @@ class Board():
         self.tiles[player_index[0]][player_index[1]].is_player = True
         return player_index
 
+
 def read_file(filename):
     with open(filename, "r") as file:
         return file.read()
+
 
 def split_file_into_list(file):
     lines = file.split("\n")
@@ -213,16 +224,3 @@ def split_file_into_list(file):
             temp_list.append(letter)
         chracters_list.append(temp_list)
     return chracters_list
-
-
-
-
-
-
-
-
-
-
-    
-
-

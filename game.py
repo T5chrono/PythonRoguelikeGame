@@ -3,6 +3,7 @@ import util
 import battle
 import character
 
+
 class Game():
 
     def __init__(self):
@@ -66,8 +67,3 @@ class Game():
         util.key_pressed()
         util.clear_screen()
         self.board.display_board()
-
-
-
-
-

@@ -2,6 +2,7 @@ import monster
 import random
 import util
 
+
 class Battle():
 
     def __init__(self, player_character):
@@ -23,12 +24,14 @@ class Battle():
         self.character_initiative += self.player_character.speed
 
         if self.monster_initiative > self.character_initiative:
-            dodge_difficulty = random.randint(0,100)
+            dodge_difficulty = random.randint(0, 100)
 
             if dodge_difficulty > self.player_character.dodge_chance:
                 monster_damage = self.calculate_damage(self.monster.attack, self.player_character.armor)
                 self.player_character.current_hp -= monster_damage
-                print("{} inflicted {} damage. {} has {} HP left".format(self.monster.name, monster_damage, self.player_character.name, self.player_character.current_hp))
+                print("{} inflicted {} damage. {} has {} HP left".format(
+                    self.monster.name, monster_damage, self.player_character.name, self.player_character.current_hp
+                    ))
             else:
                 print("{} dodged the attack!".format(self.player_character.name))
 
@@ -48,11 +51,13 @@ class Battle():
                     return False
 
                 else:
-                    dodge_difficulty = random.randint(0,100)
+                    dodge_difficulty = random.randint(0, 100)
                     if dodge_difficulty > self.monster.dodge_chance:
                         player_damage = self.calculate_damage(self.player_character.attack, self.monster.armor)
                         self.monster_hp -= player_damage
-                        print("{} inflicted {} damage. {} has {} HP left".format(self.player_character.name, player_damage, self.monster.name, self.monster_hp))
+                        print("{} inflicted {} damage. {} has {} HP left".format(
+                            self.player_character.name, player_damage, self.monster.name, self.monster_hp
+                            ))
                     else:
                         print("{} dodged the attack".format(self.monster.name))
 
@@ -74,8 +79,7 @@ class Battle():
             print("Your character killed {} and gained {} EXP!".format(self.monster.name, self.monster.defeat_exp))
             self.player_character.current_experience += self.monster.defeat_exp
             return False
-    
-    
+
     def calculate_damage(self, attack, armor):
         min_modifier = -2
         max_modifier = 2
@@ -85,13 +89,12 @@ class Battle():
             damage = 0
         return damage
 
-
     def attack(attacker, defender):
         pass
 
     def run():
         pass
 
+
 if __name__ == "__main__":
     print(monster.MonsterPool.monsters)
-
