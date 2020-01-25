@@ -66,6 +66,7 @@ class Game():
         self.board.move_player(new_position)
         util.clear_screen()
         self.board.display_board()
+        print(self.board.tiles[new_position[0]][new_position[1]].descirption)
 
     def handle_event_effects(self, new_position):
         event = events.Event.get_random_event()
@@ -77,6 +78,7 @@ class Game():
         self.player_character.correct_current_hp_to_max()
         self.player_character.check_if_lvl_up()
         self.board.make_tile_empty(new_position)
+        self.is_running = self.player_character.current_hp > 0
         print(event.description)
 
     def handle_entire_battle(self, new_position):

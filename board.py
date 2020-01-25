@@ -1,7 +1,19 @@
 import colors
-
 from enum import Enum
 from random import randint
+from random import choice
+from colored import fg, attr
+
+
+PLAYER_COLOR = fg('cyan_1')
+MONSTER_COLOR = fg('red')
+ITEM_COLOR = fg('light_yellow')
+EVENT_COLOR = fg('green')
+GATE_COLOR = fg('light_magenta')
+EMPTY_COLOR = fg('dark_gray')
+RESET_COLOR = attr('reset')
+
+
 
 class TileTypes(Enum):
     EMPTY = 1
@@ -14,6 +26,14 @@ class TileTypes(Enum):
 
 class Tile():
 
+    places = ["You enter a ladies' toilet. It smells badly", "You ran into a desk and hurt your feet", "There is an empty conference room. You take a short nap", "You sit on a warm chair", "You see sleeping workers", "You hear dropping water",
+             "A cleaning gentleman is walking with a vacuum", "You read some graphs about income", "You notice a teddy bear on the desk. You come closer to hug it",
+             "You stop to play on Xbox", "You throw a PlayStation thru a window", "You look thru a window and see a car crash", "You noticed pills lying on the table but you cannot swallow them",
+             "You split coffee on some important documents, but no one notices", "You notice a ping pong table. You stop to play for a minute... or a bit longer. Only a little bit.", "You found a knife and throw it randomly. You hear screams",
+             "You ate an old sandwich and feel sick now", "You ran to the toilet quickly", "An old lady gave you an apple. You throw it away", "You slip on a banana skin... or human. Whatever" ]
+
+
+
     def __init__(self, imported_type):
         self.is_player = False
         self.empty_tile_chance = 100
@@ -22,6 +42,7 @@ class Tile():
         self.event_tile_chance = 2
         self.tile_type = Tile.determine_tile_type(self, imported_type)
         self.is_passable = Tile.is_passable(self)
+        self.descirption = choice(Tile.places)
 
     def is_passable(self):
         if self.tile_type == "WALL":
