@@ -12,7 +12,6 @@ SUPPORTED_KEYS = {
     "Inventory": "i",
     "Pick up sth": "p",
     "Equip sth": "e",
-    "Open equipment": "o",
     "Use sth": "u",
     "Quit": "q",
     "Help": "h",
@@ -50,27 +49,7 @@ def main():
     while player_move != SUPPORTED_KEYS['Quit'] and engine.is_running:
         if player_move in SUPPORTED_KEYS['Player movement']:
             engine.handle_movement_effects(player_move)
-<<<<<<< HEAD
-<<<<<<< HEAD
         elif player_move == SUPPORTED_KEYS['Character details']:
-            get_char_details(engine)
-        elif player_move == SUPPORTED_KEYS['Help']:
-            get_help(engine)
-        elif player_move == SUPPORTED_KEYS['Inventory']:
-            get_inventory(engine)
-        elif player_move == SUPPORTED_KEYS['Pick up sth']:
-            pick_up_something(engine)
-        elif player_move == SUPPORTED_KEYS['Equip sth']:
-            equip(engine)
-        elif player_move == SUPPORTED_KEYS['Use sth']:
-            use_item(engine)
-        elif player_move == SUPPORTED_KEYS['Open equipment']:
-            print(engine.player_character)
-=======
-        elif player_move == SUPPORTED_KEYS['character details']:
-=======
-        elif player_move == SUPPORTED_KEYS['Character details']:
->>>>>>> 98af7918337c8c18b241f779a6731cb10b763ef0
             engine.get_char_details()
         elif player_move == SUPPORTED_KEYS['Help']:
             engine.get_help(SUPPORTED_KEYS)
@@ -82,12 +61,7 @@ def main():
             engine.equip()
         elif player_move == SUPPORTED_KEYS['Use sth']:
             engine.use_item()
-<<<<<<< HEAD
->>>>>>> bf60af87f3b471725d437d70b4d4a31421bf6b3c
-        elif player_move == SUPPORTED_KEYS["distribute exp points"]:
-=======
         elif player_move == SUPPORTED_KEYS["Distribute exp points"]:
->>>>>>> 98af7918337c8c18b241f779a6731cb10b763ef0
             engine.player_character.distribute_points()
             engine.display_after_key_press()
         player_move = util.key_pressed()
