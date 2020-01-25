@@ -3,7 +3,6 @@ import colors
 from enum import Enum
 from random import randint
 
-
 class TileTypes(Enum):
     EMPTY = 1
     ITEM = 2
@@ -58,6 +57,13 @@ class Board():
         self.tiles = Board.make_board(self)
         self.player_tile_position = Board.place_player(self)
         self.gate_tile_position = Board.place_gate(self)
+        self.board_level = 1
+
+    def generate_new_boad(self):
+        self.tiles = self.make_board()
+        self.player_tile_position = Board.place_player(self)
+        self.gate_tile_position = Board.place_gate(self)
+        self.board_level += 1
 
     def get_random_map_path(self):
         rooms_number = 18
@@ -95,6 +101,14 @@ class Board():
 
     def check_if_item(self, new_index):
         return self.tiles[new_index[0]][new_index[1]].tile_type == "ITEM"
+
+    def check_if_event(self, index):
+        if_event = self.tiles[index[0]][index[1]].tile_type == "EVENT"
+        return if_event
+
+    def check_if_gate(self, index):
+        if_gate = self.tiles[index[0]][index[1]].tile_type == "GATE"
+        return if_gate
 
     def make_tile_empty(self, index):
         self.tiles[index[0]][index[1]].tile_type = TileTypes.EMPTY.name
@@ -187,8 +201,8 @@ class Board():
     def get_random_passable_position(self):
         incorrect_position = True
         random_passable_tile_index = []
-        max_index_x = (self.width * 30)-1
-        max_index_y = (self.height * 10)-1
+        max_index_x = (self.width * 30) - 1
+        max_index_y = (self.height * 10) - 1
 
         while incorrect_position:
             position_x = randint(0, max_index_x)
@@ -212,10 +226,16 @@ class Board():
 
     def place_random_monster(self):
         chances_to_spawn_monster = 30
-        if randint(0,100) < chances_to_spawn_monster:
+        if randint(0, 100) < chances_to_spawn_monster:
             monster_index = self.get_random_passable_position()
             self.tiles[monster_index[0]][monster_index[1]].tile_type = "MONSTER"
-            print("A new monster arrived!")
+            print("A new monster has arrived!")
+
+    def place_item(self, new_position):
+        chances_to_spawn_item = 20
+        if randint(0, 100) < chances_to_spawn_item:
+            self.tiles[new_position[0]][new_position[1]].tile_type = "ITEM"
+            print("The monster dropped an item")
 
 
 def read_file(filename):

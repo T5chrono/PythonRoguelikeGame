@@ -54,6 +54,7 @@ class Character:
                f'   Legs: {self.legs.armor} ({self.legs.name}) \n' \
                f'   Shield: {self.shield.armor} ({self.shield.name}) \n' \
 
+
     def check_if_lvl_up(self):
         multiplier_for_exp = 1.5
         mutliplier_for_points = 2
@@ -133,4 +134,8 @@ class Character:
             self.current_mana = new_mana
         else:
             self.current_mana = 10
+
+    def correct_current_hp_to_max(self):
+        if self.current_hp > self.max_hp:
+            self.current_hp = self.max_hp
 

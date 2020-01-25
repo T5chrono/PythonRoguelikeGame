@@ -4,8 +4,10 @@ import battle
 import character
 import ui
 import colors
-from weapons_armor_items import weapons, weapon_names, armors, armor_names, powerups, powerups_names
+from weapons_armor_items import weapons, weapon_names, armors, armor_names, powerups, powerups_names, common_items, common_items_names
+import events
 from inventory import print_table, add_to_inventory, remove_from_inventory, random_item, ITEMS
+
 
 class Game():
 
@@ -38,6 +40,15 @@ class Game():
                     self.move(new_position)
                     print("There is " + colors.ITEM + "something" + colors.RESET + " here. Do you want to pick it up? (press '" + colors.ACTION + "p" + colors.RESET + "')")
 
+                elif self.board.check_if_event(new_position):
+                    self.move(new_position)
+                    self.handle_event_effects(new_position)
+
+                elif self.board.check_if_gate(new_position):
+                    user_input = input("Do you want to enter the gate: ")
+                    if user_input == 'y':
+                        self.board.generate_new_boad()
+
                 else:
                     self.move(new_position)
                     self.board.place_random_monster()
@@ -52,6 +63,18 @@ class Game():
         util.clear_screen()
         self.board.display_board()
 
+    def handle_event_effects(self, new_position):
+        event = events.Event.get_random_event()
+        self.player_character.strength += event.strenght
+        self.player_character.current_hp += event.hp
+        self.player_character.dexterity += event.dexterity
+        self.player_character.intelligence += event.intelligence
+        self.player_character.current_experience += event.exp
+        self.player_character.correct_current_hp_to_max()
+        self.player_character.check_if_lvl_up()
+        self.board.make_tile_empty(new_position)
+        print(event.description)
+
     def handle_entire_battle(self, new_position):
         fight = battle.Battle(self.player_character)
         print("You meet {}". format(colors.ENEMY + str(fight.monster.name) + colors.RESET))
@@ -64,6 +87,7 @@ class Game():
         if fight.monster_hp < 1:
             self.board.make_tile_empty(new_position)
             self.player_character.check_if_lvl_up()
+            self.board.place_item(new_position)
         if self.is_running:
             self.display_after_key_press()
 
@@ -113,7 +137,6 @@ class Game():
                 self.player_character.update_armor()
         else:
             print(f"You cannot equip {user_input}.")
-
     
     def use_item(self):
         user_input = input("What item would you like to use?: ")
@@ -124,8 +147,34 @@ class Game():
         elif user_input == "Mana potion":
             remove_from_inventory(self.player_character.inventory, ["Mana potion"])
             self.player_character.heal_mana()
+        elif not user_input:
+            print("You cannot equip nothing.")
         else:
             print(f"You cannot use {user_input}.")
+
+    def examine_item(self):
+        user_input = input("What item would you like to examine?: ")
+        if user_input in self.player_character.inventory.keys():
+            if user_input in weapon_names:
+                for i in range(len(weapon_names)):
+                    if user_input == weapon_names[i]:
+                        print(f"{weapons[i].status} (Attack: + {weapons[i].attack}).")
+            elif user_input in armor_names:
+                for i in range(len(armor_names)):
+                    if user_input == armor_names[i]:
+                        print(f"{armors[i].status} (Armor: + {armors[i].armor}).")
+            elif user_input in powerups_names:
+                for i in range(len(powerups_names)):
+                    if user_input == powerups_names[i]:
+                        print(powerups[i].status)
+            elif user_input in common_items_names:
+                for i in range(len(common_items_names)):
+                    if user_input == common_items_names[i]:
+                        print(common_items[i].status)
+        elif not user_input:
+            print("You cannot examine nothing.")
+        else:
+            print(f"You cannot examine {user_input}.")
 
     def pick_up_something(self):
         if self.board.tiles[self.board.player_tile_position[0]][
