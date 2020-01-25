@@ -15,9 +15,9 @@ def display_board(board):
     pass
 
 
-def display_help(**kwargs):
-    print("\nPlease find available options below!\n")
-    for k, v in kwargs.items():
+def display_help(SUPPORTED_KEYS):
+    print("\nPlease find available options below!")
+    for k, v in SUPPORTED_KEYS.items():
         if isinstance(v, list):
             print(f"{k} -> Press one from: '", end="")
             print(*v, sep="'/'", end="'\n")
