@@ -10,15 +10,15 @@ class Armor():
 class ArmorsPool():
 
 # armor_properties = [name, body_part, armor, status]
-    armors = [Armor(["Cap", "head", 0, "Nice hat"]),
+    armors = [Armor(["Cat ears", "head", 0, "It gives you supernatural skills"]),
           Armor(["Shirt", "torso", 0, "Fancy colored shirt"]),
-          Armor(["Gloves", "arms", 0, "My hands will be warm"]),
+          Armor(["Gloves", "arms", 0, "Your hands will be warm"]),
           Armor(["Shoes", "legs", 0, "No more LEGO blocks damage"]),
-          Armor(["Letter Tray", "shield", 1, "Simple shield for upcomming tasks"]),
-          Armor(["Helmet", "head", 1, "I hope my hair will stay ok after wearing this"]),
+          Armor(["Plate", "shield", 1, "A simple shield"]),
+          Armor(["Bucket", "head", 1, "I hope your hair will stay ok after wearing this"]),
           Armor(["Better gloves", "arms", 1, "Super warm and protective"]),
           Armor(["Greaves", "legs", 1, "Shins are important, this will protect them"]),
-          Armor(["Breastplate", "torso", 1, "Shiny peace of metal to protect my torso"]),
-          Armor(["Shield", "shield", 2, "Superior defence"])]
+          Armor(["Radiator", "torso", 1, "Shiny peace of metal to protect your torso"]),
+          Armor(["Piece of desk", "shield", 2, "Superior defence"])]
 
     armor_names = [armor.name for armor in armors]
