@@ -10,6 +10,7 @@ import weapons
 import armors
 import items
 import powerups
+import boss
 
 class Game():
 
@@ -187,13 +188,8 @@ class Game():
             self.UI.display_error_info("wrong item")
 
     def use_item(self):
-<<<<<<< Updated upstream
         user_input = input(ui.GameUI.USE_QUESTION)
-        if user_input in self.player_character.inventory.keys():
-=======
-        user_input = input(ui.UI.USE_QUESTION)
         if user_input in self.player_character.inventory.items.keys():
->>>>>>> Stashed changes
             if user_input == "Health potion":
                 self.player_character.inventory.remove_from_inventory(user_input)
                 self.player_character.heal_hp()
@@ -207,27 +203,7 @@ class Game():
         
 
     def examine_item(self):
-<<<<<<< Updated upstream
         user_input = input(ui.GameUI.EXAMINE_ITEM)
-        if user_input in self.player_character.inventory.keys():
-            if user_input in weapon_names:
-                for i in range(len(weapon_names)):
-                    if user_input == weapon_names[i]:
-                        print(f"{weapons[i].status} (Attack: + {weapons[i].attack}).")
-            elif user_input in armor_names:
-                for i in range(len(armor_names)):
-                    if user_input == armor_names[i]:
-                        print(f"{armors[i].status} (Armor: + {armors[i].armor}).")
-            elif user_input in powerups_names:
-                for i in range(len(powerups_names)):
-                    if user_input == powerups_names[i]:
-                        print(powerups[i].status)
-            elif user_input in common_items_names:
-                for i in range(len(common_items_names)):
-                    if user_input == common_items_names[i]:
-                        print(common_items[i].status)
-=======
-        user_input = input(ui.UI.EXAMINE_ITEM)
         if user_input in self.player_character.inventory.items.keys():
             if user_input in weapons.WeaponsPool.weapon_names:
                 for i in range(len(weapons.WeaponsPool.weapon_names)):
@@ -245,7 +221,6 @@ class Game():
                 for i in range(len(items.CommonItemsPool.common_items_names)):
                     if user_input == items.CommonItemsPool.common_items_names[i]:
                         print(items.CommonItemsPool.common_items[i].status)
->>>>>>> Stashed changes
         elif not user_input:
             self.UI.display_error_info("no item")
         else:
