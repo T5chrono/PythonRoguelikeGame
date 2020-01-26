@@ -1,7 +1,5 @@
 import colors
-
 import monster
-import boss
 import random
 import util
 

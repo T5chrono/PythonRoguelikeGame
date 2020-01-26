@@ -1,5 +1,6 @@
-import battle
-import ui
+import colors
+import random
+import util
 
 
 class Boss:
@@ -14,62 +15,80 @@ class Boss:
         self.dodge_chance = 10
 
 
-def boss_fight():
-    ui.print_message(question1)
-    user_input = user_answer()
-    if user_input == '1':
-        you_are_fired()
-    elif user_input == '2':
-        ui.print_message(question2)
-        user_input = user_answer()
-        if user_input == '1':
-            you_are_fired()
-        elif user_input == '2':
-            ui.print_message(question3)
-            user_input = user_answer()
-            if user_input == '1':
-                you_are_fired()
-            elif user_input == '2':
-                you_get_a_promotion()
-            elif user_input == '3':
-                fight_with_boss()
+class BossBattle:
+
+    def __init__(self, player_character):
+        self.boss_initiative = 0
+        self.character_initiative = 0
+        self.player_character = player_character
+        self.boss = Boss()
+        self.boss_hp = self.boss.current_hp
+
+    def handle_fight_round(self):
+        self.boss_initiative += self.boss.speed
+        self.character_initiative += self.player_character.speed
+
+        if self.boss_initiative > self.character_initiative:
+            dodge_difficulty = random.randint(0, 100)
+
+            if dodge_difficulty > self.player_character.dodge_chance:
+                monster_damage = self.calculate_damage(self.boss.attack, self.player_character.armor)
+                self.player_character.current_hp -= monster_damage
+                print("{} inflicted {} damage. {} has {} HP left".format(
+                    self.boss.name, colors.ENEMY + str(monster_damage) + colors.RESET, self.player_character.name, colors.PLAYER + str(self.player_character.current_hp) + colors.RESET
+                    ))
             else:
-                remind_player_to_say_something()
-        elif user_input == '3':
-            fight_with_boss()
+                print("{} dodged the attack!".format(colors.PLAYER + str(self.player_character.name) + colors.RESET))
+            self.character_initiative += self.player_character.speed
+            player_alive = self.check_if_player_alive()
+            return player_alive
+
+        elif self.boss_initiative <= self.character_initiative:
+            print("Your turn! You want to run " + colors.ACTION + "(r)" + colors.RESET + " or attack " + colors.ACTION + "(a)" + colors.RESET + "?")
+            player_choice = ""
+
+            while player_choice not in ["r", "a"]:
+                player_choice = util.key_pressed()
+
+                if player_choice == "r":
+                    print("{} escaped safely from {}".format(colors.PLAYER + str(self.player_character.name) + colors.RESET, self.boss.name))
+                    return False
+
+                else:
+                    dodge_difficulty = random.randint(0, 100)
+                    if dodge_difficulty > self.boss.dodge_chance:
+                        player_damage = self.calculate_damage(self.player_character.attack, self.boss.armor)
+                        self.boss_hp -= player_damage
+                        print("{} inflicted {} damage. {} has {} HP left".format(
+                            self.player_character.name, colors.PLAYER + str(player_damage) + colors.RESET, self.boss.name, colors.ENEMY + str(self.boss_hp) + colors.RESET
+                            ))
+                    else:
+                        print("{} dodged the attack".format(colors.ENEMY + str(self.boss.name) + colors.RESET))
+
+                    self.boss_initiative += self.boss.speed
+                    monster_alive = self.check_if_monster_alive()
+                    return monster_alive
+
+    def check_if_player_alive(self):
+        if self.player_character.current_hp > 0:
+            return True
         else:
-            remind_player_to_say_something()
-    elif user_input == '3':
-        fight_with_boss()
-    else:
-        remind_player_to_say_something()
+            print(colors.ENEMY + "Your character died!" + colors.RESET)
+            return False
 
+    def check_if_monster_alive(self):
+        if self.boss_hp > 0:
+            return True
+        else:
+            print("Your character killed {} and gained {} EXP!".format(colors.PLAYER + str(self.boss.name) + colors.RESET, colors.PLAYER + str(self.boss.defeat_exp) + colors.RESET))
+            self.player_character.current_experience += self.boss.defeat_exp
+            return False
 
-def user_answer():
-    return input("What is your answer?: ")
-
-
-def remind_player_to_say_something():
-    ui.print_message("You have to answer somehow ('1', '2' or '3'")
-
-
-def you_are_fired():
-    ui.print_message("You are fired!!! ")
-    # TODO: negative end game screen
-
-
-def you_get_a_promotion():
-    ui.print_message("Well I guess it is ok.")
-    # TODO positive end game screen
-
-
-def fight_with_boss():
-    pass  # TODO battle fight
-
-
-question1 = "Aaa, it's you! Where is my report.\n 1. My dog ate it.\n 2. I will bring it tomorrow.\n 3. I don't care " \
-            "about your report let's fight.\n "
-question2 = "I need it now!\n 1. Time is just a construct.\n 2. Maybe I can offer you something else?\n 3. I don't " \
-            "care about your report let's fight.\n "
-question3 = "What do you have in mind?\n 1. Let's just forget about it? \n 2. Maybe you want a cake?\n 3. I don't " \
-            "care about your report let's fight.\n "
+    def calculate_damage(self, attack, armor):
+        min_modifier = -2
+        max_modifier = 2
+        random_modifier = random.randint(min_modifier, max_modifier)
+        damage = attack - armor + random_modifier
+        if damage < 0:
+            damage = 0
+        return damage
