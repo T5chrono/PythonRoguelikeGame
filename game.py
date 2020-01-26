@@ -102,6 +102,10 @@ class Game():
                         else:
                             self.board.generate_boss_level()
 
+                elif self.board.check_if_boss(new_position):
+                    self.move(new_position)
+                    print("Boss here")
+
                 else:
                     self.move(new_position)
                     self.board.place_random_monster()
