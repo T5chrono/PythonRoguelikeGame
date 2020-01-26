@@ -10,4 +10,4 @@ class Music():
     def play_music():
         mixer.init()
         mixer.music.load(Music.DIRECTORY + Music.MAIN_THEME)
-        mixer.music.play()
+        mixer.music.play(loops = -1)
