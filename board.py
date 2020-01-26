@@ -22,7 +22,11 @@ class Tile():
              "A cleaning gentleman is walking with a vacuum", "You read some graphs about income", "You notice a teddy bear on the desk. You come closer to hug it",
              "You stop to play on Xbox", "You throw a PlayStation thru a window", "You look thru a window and see a car crash", "You noticed pills lying on the table but you cannot swallow them",
              "You split coffee on some important documents, but no one notices", "You notice a ping pong table. You stop to play for a minute... or a bit longer. Only a little bit.", "You found a knife and throw it randomly. You hear screams",
-             "You ate an old sandwich and feel sick now", "You ran to the toilet quickly", "An old lady gave you an apple. You throw it away", "You slip on a banana skin... or human. Whatever" ]
+             "You ate an old sandwich and feel sick now", "You ran to the toilet quickly", "An old lady gave you an apple. You throw it away", "You slip on a banana skin... or human. Whatever", "The manager forgot to give you a promised promotion, but he sent you to ethics training to compensate",
+             "You receive an email with pointless tasks, but you must do it immediately", "You report a broken window... after a window you get used to spikes of adrenaline when sitting nearby",
+             "You wanted to report bugs, but it appears no one is responsible for fixing it", "Your cousin died? We are so sorry... NO! YOU CAN'T TAKE A DAY OFF!'",
+             "The manager is thankful for your excellent work, but giving you a raise would ruin the entire company", "You have nothing to do, but you pretend you are busy to avoid being shout at",
+             "You hide in a toilet"]
 
 
 
