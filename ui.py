@@ -16,6 +16,7 @@ class UI():
     NO_ITEM_CHOSE = "You cannot do that with nothing."
     EXAMINE_ITEM = "What item would you like to examine?: "
     EMPTY_TILE = "There is nothing here."
+    SAY_QUESTION = "What do you want to say?: "
 
     def __init__(self, game):
         self.game_engine = game
@@ -65,6 +66,10 @@ class UI():
          
     def display_info_item(self):
         print("\nThere is " + colors.ITEM + "something" + colors.RESET + " here. \nDo you want to pick it up? (press '" + colors.ACTION + "p" + colors.RESET + "')")
+
+
+def print_message(something):
+    print(something)
 
     
 def get_user_value(info_message, default_value):

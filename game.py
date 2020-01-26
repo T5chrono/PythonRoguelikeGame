@@ -2,6 +2,7 @@ import board
 import util
 import battle
 import character
+import boss
 import ui
 import colors
 from weapons_armor_items import weapons, weapon_names, armors, armor_names, powerups, powerups_names, common_items, \
@@ -26,6 +27,7 @@ class Game():
     "Examine the item": "x"}
 
     def __init__(self):
+        self.boss = boss.Boss()
         self.is_running = True
         self.UI = ui.UI(self)
 
@@ -63,6 +65,8 @@ class Game():
             self.examine_item()
         elif player_move == Game.SUPPORTED_KEYS["Quit"]:
             self.is_running = False
+        elif player_move == "f":
+            self.say()
 
     def get_board_dimension(self, dimension):
 
@@ -95,7 +99,7 @@ class Game():
                 elif self.board.check_if_gate(new_position):
                     user_input = input(ui.UI.GATE_INFO)
                     if user_input.lower() == 'y':
-                        if self.board.board_level < 2:
+                        if self.board.board_level <= 1:
                             self.board.generate_new_board()
                             util.clear_screen()
                             self.board.display_board()
@@ -103,8 +107,8 @@ class Game():
                             self.board.generate_boss_level()
 
                 elif self.board.check_if_boss(new_position):
-                    self.move(new_position)
-                    print("Boss here")
+                    print("Boss is here")
+                    self.handle_boss_battle()
 
                 else:
                     self.move(new_position)
@@ -224,3 +228,13 @@ class Game():
                 self.board.player_tile_position[1]].tile_type = "EMPTY"
         else:
             self.UI.display_error_info("empty tile")
+
+    def say(self):
+        user_input = input(ui.UI.SAY_QUESTION)
+        if user_input == "Fork yourself":
+            pass
+        else:
+            print("No one cares!")
+
+    def handle_boss_battle(self):
+        boss.boss_fight()
