@@ -4,6 +4,7 @@ import weapons
 import armors
 import items
 import powerups
+import random
 
 
 class Inventory():
