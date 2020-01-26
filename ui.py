@@ -1,8 +1,14 @@
 import colors
 import game
 import util
+import os
+import time
 
 
+IMAGES_DIRECTORY = os.getcwd() +"/images/"
+OPENING_FILE = "START"
+WIN_FILE = "WIN"
+RIP_FILE = "RIP"
 INFO, ERROR = range(2)
 
 
@@ -38,6 +44,15 @@ class UI():
 
     def print_message(something):
         print(something)
+
+    # displays open title and RIP
+    def display_by_line(file_path):
+        delay_time = 0.3
+        os.system("clear")
+        with open(file_path) as fp:
+            for line in fp:
+                time.sleep(delay_time)
+                print(line, end="")
 
 
 class GameUI():

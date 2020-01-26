@@ -143,6 +143,8 @@ class Game():
         self.board.make_tile_empty(new_position)
         self.is_running = self.player_character.current_hp > 0
         print(event.description)
+        if not self.is_running:
+            ui.UI.display_by_line(ui.IMAGES_DIRECTORY + ui.RIP_FILE)
 
     def handle_entire_battle(self, new_position):
         fight = battle.Battle(self.player_character)
@@ -152,6 +154,8 @@ class Game():
         while is_figthing:
             is_figthing = fight.handle_fight_round()
             self.is_running = (self.player_character.current_hp > 0)
+            if not self.is_running:
+                ui.UI.display_by_line(ui.IMAGES_DIRECTORY + ui.RIP_FILE)
 
         if fight.monster_hp < 1:
             self.board.make_tile_empty(new_position)
@@ -287,13 +291,13 @@ class Game():
         ui.UI.print_message("You are fired!!! ")
         ui.UI.print_message("Congratualtions. You reached negative ending")
         self.is_running = False
-        # TODO: negative end game screen
+        ui.UI.display_by_line(ui.IMAGES_DIRECTORY + ui.RIP_FILE)
 
     def you_get_a_promotion(self):
         ui.UI.print_message("Well I guess it is ok. \n I will give you a promotion")
         ui.UI.print_message("Congratualtions. You reached positive ending")
         self.is_running = False
-        # TODO positive end game screen
+        ui.UI.display_by_line(ui.IMAGES_DIRECTORY + ui.WIN_FILE)
 
     def fight_with_boss(self):
         boss_fight = boss.BossBattle(self.player_character)

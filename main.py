@@ -3,12 +3,12 @@ import game
 import ui
 import sounds
 import colors
-
-# import music
+import os
 
 
 def main():
     util.clear_screen()
+    ui.UI.display_by_line(ui.IMAGES_DIRECTORY + ui.OPENING_FILE)
     engine = game.Game()
     sounds.Music.play_music()
 
