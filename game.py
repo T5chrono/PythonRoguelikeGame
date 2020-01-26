@@ -94,7 +94,7 @@ class Game():
                     user_input = input(f"\n{colors.GATE}Do you want to enter the gate? (y/n) {colors.RESET}")
                     if user_input.lower() == 'y':
                         if self.board.board_level < 2:
-                            self.board.generate_new_boad()
+                            self.board.generate_new_board()
                             util.clear_screen()
                             self.board.display_board()
                         else:

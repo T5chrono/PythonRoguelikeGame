@@ -2,6 +2,11 @@ import colors
 
 INFO, ERROR = range(2)
 
+class UI():
+
+    def __init__(self, game):
+        self.game_engine = game
+
 
 def get_user_value(info_message, default_value):
     player_value = input(colors.PLAYER + info_message + colors.RESET)

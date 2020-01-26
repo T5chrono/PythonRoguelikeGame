@@ -3,6 +3,7 @@ from enum import Enum
 from random import randint
 from random import choice
 from colored import fg, attr
+import ui
 
 
 class TileTypes(Enum):
@@ -71,6 +72,7 @@ class Board():
         self.gate_tile_position = Board.place_gate(self)
         self.board_level = 1
         self.is_boss = False
+        self.UI = ui.UI(self)
 
     def generate_new_board(self):
         self.tiles = self.make_board()
@@ -243,7 +245,7 @@ class Board():
         return player_index
 
     def place_random_monster(self):
-        chances_to_spawn_monster = 30
+        chances_to_spawn_monster = 10
         if randint(0, 100) < chances_to_spawn_monster:
             monster_index = self.get_random_passable_position()
             self.tiles[monster_index[0]][monster_index[1]].tile_type = "MONSTER"
