@@ -2,7 +2,9 @@ import colors
 import game
 import util
 
+
 INFO, ERROR = range(2)
+
 
 class UI():
     PROVIDE_NAME = "\nPlease provide the name of your character! "
@@ -21,8 +23,6 @@ class UI():
         print(f"\n{colors.INFO}{info_message}{colors.RESET}{colors.ACTION}")
         print(*args, sep=colors.RESET + ", " + colors.ACTION, end=colors.RESET + "\n")
 
-    def print_message(self, something):
-        print(something)
 
     def display_dict_details(self, info_message, **kwargs):
         print(info_message)
@@ -35,6 +35,9 @@ class UI():
         if hasattr(cls, '__class__'):
             return ('__dict__' in dir(cls) or hasattr(cls, '__slots__'))
         return False
+
+    def print_message(something):
+        print(something)
 
 
 class GameUI():

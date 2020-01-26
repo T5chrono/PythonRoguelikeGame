@@ -247,17 +247,17 @@ class Game():
                     "3. I don't care about your report. Let's fight.\n "
         question3 = "What do you have in mind?\n 1. Let's just forget about it? \n 2. Maybe you want a cake?\n " \
                     "3. I don't care about your report. Let's fight.\n "
-        ui.print_message(question1)
+        ui.UI.print_message(question1)
         user_input = self.user_answer()
         if user_input == '1':
             self.you_are_fired()
         elif user_input == '2':
-            ui.print_message(question2)
+            ui.UI.print_message(question2)
             user_input = self.user_answer()
             if user_input == '1':
                 self.you_are_fired()
             elif user_input == '2':
-                ui.print_message(question3)
+                ui.UI.print_message(question3)
                 user_input = self.user_answer()
                 if user_input == '1':
                     self.you_are_fired()
@@ -280,14 +280,14 @@ class Game():
         return input("What is your answer?: ")
 
     def remind_player_to_say_something(self):
-        ui.print_message("You have to answer somehow ('1', '2' or '3')")
+        ui.UI.print_message("You have to answer somehow ('1', '2' or '3')")
 
     def you_are_fired(self):
-        ui.print_message("You are fired!!! ")
+        ui.UI.print_message("You are fired!!! ")
         # TODO: negative end game screen
 
     def you_get_a_promotion(self):
-        ui.print_message("Well I guess it is ok.")
+        ui.UI.print_message("Well I guess it is ok.")
         # TODO positive end game screen
 
     def fight_with_boss(self):
