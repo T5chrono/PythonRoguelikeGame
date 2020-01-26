@@ -10,6 +10,12 @@ class UI():
     NUMBER_ERROR = f"{colors.ERROR}Enter a number!{colors.RESET}"
     PROVIDE_NAME = "Please provide the name of your character! "
     WALL_WARNING = f"{colors.ACTION}You can't move on wall!{colors.RESET}"
+    EQUIP_QUESTION = "What would you like to equip?: "
+    USE_QUESTION = "What item would you like to use?: "
+    WRONG_ITEM = "You cannot do that!"
+    NO_ITEM_CHOSE = "You cannot do that with nothing."
+    EXAMINE_ITEM = "What item would you like to examine?: "
+    EMPTY_TILE = "There is nothing here."
 
     def __init__(self, game):
         self.game_engine = game
@@ -19,9 +25,25 @@ class UI():
             print(UI.NUMBER_ERROR)
         elif error_type == "out of index":
             print(UI.WALL_WARNING)
+        elif error_type == "wrong item":
+            print(UI.WRONG_ITEM)
+        elif error_type == "no item":
+            print(UI.NO_ITEM_CHOSE)
+        elif error_type == "empty tile":
+            print(UI.EMPTY_TILE)
+
+
+    def display_char_details(self):
+        self.display_board()
+        print(self.game_engine.player_character)
 
     def display_monster_info(self, monster_name):
         print("\nYou meet {}\n". format(colors.ENEMY + monster_name + colors.RESET))
+
+    def display_board_after_key_press(self):
+        print("Press any key to continue")
+        util.key_pressed()
+        self.display_board()
 
     def display_board(self):
         util.clear_screen()

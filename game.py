@@ -45,7 +45,7 @@ class Game():
         if player_move in Game.SUPPORTED_KEYS['Player movement']:
             self.handle_movement_effects(player_move)
         elif player_move == Game.SUPPORTED_KEYS['Character details']:
-            self.get_char_details()
+            self.UI.display_char_details()
         elif player_move == Game.SUPPORTED_KEYS['Help']:
             self.get_help(**Game.SUPPORTED_KEYS)
         elif player_move == Game.SUPPORTED_KEYS['Inventory']:
@@ -58,7 +58,7 @@ class Game():
             self.use_item()
         elif player_move == Game.SUPPORTED_KEYS["Distribute exp points"]:
             self.player_character.distribute_points()
-            self.display_after_key_press()
+            self.UI.display_board_after_key_press()
         elif player_move == Game.SUPPORTED_KEYS["Examine the item"]:
             self.examine_item()
         elif player_move == Game.SUPPORTED_KEYS["Quit"]:
@@ -144,26 +144,14 @@ class Game():
             self.player_character.check_if_lvl_up()
             self.board.place_item(new_position)
         if self.is_running:
-            self.display_after_key_press()
-
-    def display_after_key_press(self):
-        print("Press any key to continue")
-        util.key_pressed()
-        util.clear_screen()
-        self.board.display_board()
-
-    def get_char_details(self):
-        util.clear_screen()
-        self.board.display_board()
-        print(self.player_character)
+            self.UI.display_board_after_key_press()
 
     def get_inventory(self):
-        util.clear_screen()
-        self.board.display_board()
+        self.UI.display_board()
         print_table(self.player_character.inventory)
 
     def equip(self):
-        user_input = input("What would you like to equip?: ")
+        user_input = input(ui.UI.EQUIP_QUESTION)
         if user_input in weapon_names and user_input in self.player_character.inventory.keys():
             for i in range(len(weapon_names)):
                 if user_input == weapon_names[i]:
@@ -184,10 +172,10 @@ class Game():
                         self.player_character.shield = armors[i]
                 self.player_character.update_armor()
         else:
-            print(f"You cannot equip {user_input}.")
+            self.UI.display_error_info("wrong item")
 
     def use_item(self):
-        user_input = input("What item would you like to use?: ")
+        user_input = input(ui.UI.USE_QUESTION)
         if user_input in self.player_character.inventory.keys():
             if user_input == "Health potion":
                 remove_from_inventory(self.player_character.inventory, ["Health potion"])
@@ -196,12 +184,12 @@ class Game():
             remove_from_inventory(self.player_character.inventory, ["Mana potion"])
             self.player_character.heal_mana()
         elif not user_input:
-            print("You cannot equip nothing.")
+            self.UI.display_error_info("no item")
         else:
-            print(f"You cannot use {user_input}.")
+            self.UI.display_error_info("wrong item")
 
     def examine_item(self):
-        user_input = input("What item would you like to examine?: ")
+        user_input = input(ui.UI.EXAMINE_ITEM)
         if user_input in self.player_character.inventory.keys():
             if user_input in weapon_names:
                 for i in range(len(weapon_names)):
@@ -220,9 +208,9 @@ class Game():
                     if user_input == common_items_names[i]:
                         print(common_items[i].status)
         elif not user_input:
-            print("You cannot examine nothing.")
+            self.UI.display_error_info("no item")
         else:
-            print(f"You cannot examine {user_input}.")
+            self.UI.display_error_info("wrong item")
 
     def pick_up_something(self):
         if self.board.tiles[self.board.player_tile_position[0]][
@@ -231,4 +219,4 @@ class Game():
             self.board.tiles[self.board.player_tile_position[0]][
                 self.board.player_tile_position[1]].tile_type = "EMPTY"
         else:
-            print("There is nothing here.")
+            self.UI.display_error_info("empty tile")
