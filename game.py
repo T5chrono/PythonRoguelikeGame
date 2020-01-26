@@ -7,7 +7,6 @@ import colors
 from weapons_armor_items import weapons, weapon_names, armors, armor_names, powerups, powerups_names, common_items, \
     common_items_names
 import events
-import ui
 from inventory import print_table, add_to_inventory, remove_from_inventory, random_item, ITEMS
 
 
@@ -25,15 +24,18 @@ class Game():
     "Distribute exp points": "l",
     "Examine the item": "x"}
 
+    PLAYER_STATS = "."
+
     def __init__(self):
         self.is_running = True
-        self.UI = ui.UI(self)
+        self.player_character = character.Character()
+        self.UI = ui.GameUI(self)
 
     def create_new_board(self):
         self.board = board.Board(self.get_board_dimension("height"), self.get_board_dimension("width"))
     
-    def create_character(self, character_name):
-        self.player_character = character.Character(character_name)
+    def add_character_name(self, character_name):
+        self.player_character.name = character_name
 
     def initialize_player_class_and_race(self):
         player_race, player_class = self.player_character.get_character_type()
@@ -61,6 +63,8 @@ class Game():
             self.UI.display_board_after_key_press()
         elif player_move == Game.SUPPORTED_KEYS["Examine the item"]:
             self.examine_item()
+        elif player_move == Game.PLAYER_STATS:
+            self.player_character.ui.display_dict_details("\n Player stats:\n", **self.player_character.__dict__)
         elif player_move == Game.SUPPORTED_KEYS["Quit"]:
             self.is_running = False
 
@@ -69,7 +73,7 @@ class Game():
         dimension_size = 0
 
         while dimension_size < 1 or dimension_size > 5:
-            user_answer = input("\nChoose {} of map between {}1 and 5{}: ".format(dimension, colors.ACTION, colors.RESET))
+            user_answer = input("Choose {} of map between {}1 and 5{}: ".format(dimension, colors.ACTION, colors.RESET))
             try:
                 dimension_size = int(user_answer)
             except:
@@ -93,7 +97,7 @@ class Game():
                     self.handle_event_effects(new_position)
 
                 elif self.board.check_if_gate(new_position):
-                    user_input = input(ui.UI.GATE_INFO)
+                    user_input = input(ui.GameUI.GATE_INFO)
                     if user_input.lower() == 'y':
                         if self.board.board_level < 2:
                             self.board.generate_new_board()
@@ -151,7 +155,7 @@ class Game():
         print_table(self.player_character.inventory)
 
     def equip(self):
-        user_input = input(ui.UI.EQUIP_QUESTION)
+        user_input = input(ui.GameUI.EQUIP_QUESTION)
         if user_input in weapon_names and user_input in self.player_character.inventory.keys():
             for i in range(len(weapon_names)):
                 if user_input == weapon_names[i]:
@@ -175,7 +179,7 @@ class Game():
             self.UI.display_error_info("wrong item")
 
     def use_item(self):
-        user_input = input(ui.UI.USE_QUESTION)
+        user_input = input(ui.GameUI.USE_QUESTION)
         if user_input in self.player_character.inventory.keys():
             if user_input == "Health potion":
                 remove_from_inventory(self.player_character.inventory, ["Health potion"])
@@ -189,7 +193,7 @@ class Game():
             self.UI.display_error_info("wrong item")
 
     def examine_item(self):
-        user_input = input(ui.UI.EXAMINE_ITEM)
+        user_input = input(ui.GameUI.EXAMINE_ITEM)
         if user_input in self.player_character.inventory.keys():
             if user_input in weapon_names:
                 for i in range(len(weapon_names)):

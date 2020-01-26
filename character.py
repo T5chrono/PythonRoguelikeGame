@@ -7,9 +7,9 @@ import ui
 
 class Character:
 
-    def __init__(self, name):
+    def __init__(self):
         # FLUFF
-        self.name = name
+        self.name = ""
         self.character_class = ""
         self.character_race = ""
         self.inventory = {}
@@ -40,6 +40,8 @@ class Character:
         # ADVANCED STATS
         self.speed = self.dexterity * 7
         self.dodge_chance = int(self.dexterity - self.armor // 2)
+        # UI
+        self.ui = ui.UI()
 
     def __repr__(self):
         return f'Name: {self.name} ({self.character_race} the {self.character_class}) \n' \
@@ -145,17 +147,17 @@ class Character:
 
     def get_character_type(self):
         while self.character_race == "":
-            ui.display_list_details("Please find below list of races:", list(player_races_and_classes.ALL_POSSIBLE_RACES))
-            self.character_race = ui.get_user_value("\nWhich one do you want? ", "")
+            self.ui.display_list_details("Please find below list of races:", list(player_races_and_classes.ALL_POSSIBLE_RACES))
+            self.character_race = self.ui.get_user_value("\nWhich one do you want? ", "")
             if self.character_race not in player_races_and_classes.ALL_POSSIBLE_RACES:
-                ui.display_message(f"There is no race {self.character_race}", ui.ERROR)
+                self.ui.display_message(f"There is no race {self.character_race}", ui.ERROR)
                 self.character_race = ""
 
         while self.character_class == "":
-            ui.display_list_details("Please find below list of classes:", list(player_races_and_classes.ALL_POSSIBLE_CLASSES))
-            self.character_class = ui.get_user_value("\nWhich one do you want? ", "")
+            self.ui.display_list_details("Please find below list of classes:", list(player_races_and_classes.ALL_POSSIBLE_CLASSES))
+            self.character_class = self.ui.get_user_value("\nWhich one do you want? ", "")
             if self.character_class not in player_races_and_classes.ALL_POSSIBLE_CLASSES:
-                ui.display_message(f"There is no class {self.character_class}", ui.ERROR)
+                self.ui.display_message(f"There is no class {self.character_class}", ui.ERROR)
                 self.character_class = ""
 
         return self.character_race, self.character_class
@@ -173,4 +175,4 @@ class Character:
         self.max_mana += my_class.max_mana + my_race.max_mana
         self.current_mana += my_class.current_mana + my_race.current_mana
 
-        ui.display_message(str(my_race.description) + " " + str(my_class.description))
+        self.ui.display_message(str(my_race.description) + " " + str(my_class.description))

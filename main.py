@@ -10,17 +10,13 @@ import colors
 def main():
     util.clear_screen()
     engine = game.Game()
-
-    character_name = ui.get_user_value(ui.UI.PROVIDE_NAME, "Keanu")
-
-    # music.Music.play_music()
-
+    sounds.Music.play_music()
 
     board_created = False
     
     while not board_created:
         try:
-             engine.create_new_board()
+            engine.create_new_board()
         except TypeError:
             engine.UI.display_error_info("expected number")
         else:
@@ -28,7 +24,8 @@ def main():
 
     engine.is_running = True
 
-    engine.create_character(character_name)
+    character_name = engine.player_character.ui.get_user_value(ui.UI.PROVIDE_NAME, "Keanu")
+    engine.add_character_name(character_name)
     engine.initialize_player_class_and_race()
 
     util.key_pressed()
