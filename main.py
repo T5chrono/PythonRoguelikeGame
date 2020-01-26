@@ -9,34 +9,35 @@ import colors
 
 def main():
     util.clear_screen()
+    engine = game.Game()
 
-    character_name = ui.get_user_value("\nPlease provide the name of your character! ", "Keanu")
+    character_name = ui.get_user_value(ui.UI.PROVIDE_NAME, "Keanu")
 
     # music.Music.play_music()
 
+
     board_created = False
+    
     while not board_created:
         try:
-            engine = game.Game()
+             engine.create_new_board()
         except TypeError:
-            print(f"{colors.ERROR}Enter a number!{colors.RESET}")
+            engine.UI.display_error_info("expected number")
         else:
             board_created = True
 
     engine.is_running = True
 
-    engine.create_new_board()
     engine.create_character(character_name)
     engine.initialize_player_class_and_race()
+
     util.key_pressed()
-    util.clear_screen()
-    engine.board.display_board()
-    engine.get_help(**engine.SUPPORTED_KEYS)
+    engine.UI.display_help()
 
     while engine.is_running:
         engine.handle_action()
        
-    ui.display_goodbye(engine.player_character.name)
+    engine.UI.display_goodbye()
 
 
 if __name__ == '__main__':

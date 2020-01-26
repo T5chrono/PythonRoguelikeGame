@@ -7,6 +7,7 @@ import colors
 from weapons_armor_items import weapons, weapon_names, armors, armor_names, powerups, powerups_names, common_items, \
     common_items_names
 import events
+import ui
 from inventory import print_table, add_to_inventory, remove_from_inventory, random_item, ITEMS
 
 
@@ -24,8 +25,9 @@ class Game():
     "Distribute exp points": "l",
     "Examine the item": "x"}
 
-    def __init__(self, character_name="Keanu"):
+    def __init__(self):
         self.is_running = True
+        self.UI = ui.UI(self)
 
     def create_new_board(self):
         self.board = board.Board(self.get_board_dimension("height"), self.get_board_dimension("width"))
@@ -84,14 +86,14 @@ class Game():
 
                 elif self.board.check_if_item(new_position):
                     self.move(new_position)
-                    print("\nThere is " + colors.ITEM + "something" + colors.RESET + " here. \nDo you want to pick it up? (press '" + colors.ACTION + "p" + colors.RESET + "')")
+                    self.UI.display_info_item()
 
                 elif self.board.check_if_event(new_position):
                     self.move(new_position)
                     self.handle_event_effects(new_position)
 
                 elif self.board.check_if_gate(new_position):
-                    user_input = input(f"\n{colors.GATE}Do you want to enter the gate? (y/n) {colors.RESET}")
+                    user_input = input(ui.UI.GATE_INFO)
                     if user_input.lower() == 'y':
                         if self.board.board_level < 2:
                             self.board.generate_new_board()
@@ -105,14 +107,12 @@ class Game():
                     self.board.place_random_monster()
 
         except IndexError:
-            util.clear_screen()
-            self.board.display_board()
-            print(f"{colors.ACTION}You can't move on wall!{colors.RESET}")
+            self.UI.display_board()
+            self.UI.display_error_info("out of index")
 
     def move(self, new_position):
         self.board.move_player(new_position)
-        util.clear_screen()
-        self.board.display_board()
+        self.UI.display_board()
         if self.board.is_boss:
             self.board.move_boss()
         print(self.board.tiles[new_position[0]][new_position[1]].descirption)
@@ -132,7 +132,7 @@ class Game():
 
     def handle_entire_battle(self, new_position):
         fight = battle.Battle(self.player_character)
-        print("\nYou meet {}\n". format(colors.ENEMY + str(fight.monster.name) + colors.RESET))
+        self.UI.display_monster_info(fight.monster.name)
         is_figthing = True
 
         while is_figthing:
@@ -151,11 +151,6 @@ class Game():
         util.key_pressed()
         util.clear_screen()
         self.board.display_board()
-
-    def get_help(self, **SUPPORTED_KEYS):
-        util.clear_screen()
-        self.board.display_board()
-        ui.display_help(**SUPPORTED_KEYS)
 
     def get_char_details(self):
         util.clear_screen()

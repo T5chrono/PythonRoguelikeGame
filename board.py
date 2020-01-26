@@ -72,7 +72,6 @@ class Board():
         self.gate_tile_position = Board.place_gate(self)
         self.board_level = 1
         self.is_boss = False
-        self.UI = ui.UI(self)
 
     def generate_new_board(self):
         self.tiles = self.make_board()
