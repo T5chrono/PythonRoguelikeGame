@@ -5,7 +5,6 @@ import character
 import colors
 import ui
 import events
-import inventory
 import weapons
 import armors
 import items
@@ -284,10 +283,14 @@ class Game():
 
     def you_are_fired(self):
         ui.UI.print_message("You are fired!!! ")
+        ui.UI.print_message("Congratualtions. You reached negative ending")
+        self.is_running = False
         # TODO: negative end game screen
 
     def you_get_a_promotion(self):
-        ui.UI.print_message("Well I guess it is ok.")
+        ui.UI.print_message("Well I guess it is ok. \n I will give you a promotion")
+        ui.UI.print_message("Congratualtions. You reached positive ending")
+        self.is_running = False
         # TODO positive end game screen
 
     def fight_with_boss(self):

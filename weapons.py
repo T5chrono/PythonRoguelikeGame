@@ -7,13 +7,13 @@ class Weapon():
         self.critical_chance = weapon_properties[2]
         self.status = weapon_properties[3]
 
-class WeaponsPool():
 
-# weapon_properties = [name, attack, critical_chance, status]
+class WeaponsPool():
+    # weapon_properties = [name, attack, critical_chance, status]
     weapons = [Weapon(["Fists", 1, 0, "Your own fists"]),
-           Weapon(["Dagger", 2, 0, "Shiny dagger with"]),
-           Weapon(["Simple sword", 3, 1, "Sturdy piece of iron for monster slaying"]),
-           Weapon(["Axe", 3, 2, "You could chop monster in half with this"]),
-           Weapon(["Hammer", 4, 1, "Smashing machine"])]
+               Weapon(["Pen", 2, 0, "Shiny ballpen. I can stick in someones eye"]),
+               Weapon(["Scissors", 3, 1, "Sturdy piece of iron for co-worker slaying"]),
+               Weapon(["Stapler", 3, 2, "You could staple monster in half with this"]),
+               Weapon(["Copy machine", 4, 1, "Smashing machine"])]
 
     weapon_names = [weapon.name for weapon in weapons]

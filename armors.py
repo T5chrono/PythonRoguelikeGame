@@ -14,7 +14,7 @@ class ArmorsPool():
           Armor(["Shirt", "torso", 0, "Fancy colored shirt"]),
           Armor(["Gloves", "arms", 0, "My hands will be warm"]),
           Armor(["Shoes", "legs", 0, "No more LEGO blocks damage"]),
-          Armor(["Buckler", "shield", 1, "Simple shield"]),
+          Armor(["Letter Tray", "shield", 1, "Simple shield for upcomming tasks"]),
           Armor(["Helmet", "head", 1, "I hope my hair will stay ok after wearing this"]),
           Armor(["Better gloves", "arms", 1, "Super warm and protective"]),
           Armor(["Greaves", "legs", 1, "Shins are important, this will protect them"]),
