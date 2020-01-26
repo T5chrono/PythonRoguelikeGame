@@ -1,6 +1,7 @@
 import colors
 import random
 import util
+import ui
 
 
 class Boss:
@@ -13,6 +14,15 @@ class Boss:
         self.defeat_exp = 100
         self.speed = 10
         self.dodge_chance = 10
+
+
+def random_curse():
+    curses = ["I always hated you",
+              "You were lousy worker anyway!",
+              "You were always late",
+              "You are a scum",
+              "You will not achieve anything"]
+    return random.choice(curses)
 
 
 class BossBattle:
@@ -34,6 +44,7 @@ class BossBattle:
             if dodge_difficulty > self.player_character.dodge_chance:
                 monster_damage = self.calculate_damage(self.boss.attack, self.player_character.armor)
                 self.player_character.current_hp -= monster_damage
+                ui.UI.print_message(random_curse())
                 print("{} inflicted {} damage. {} has {} HP left".format(
                     self.boss.name, colors.ENEMY + str(monster_damage) + colors.RESET, self.player_character.name, colors.PLAYER + str(self.player_character.current_hp) + colors.RESET
                     ))

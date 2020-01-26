@@ -1,15 +1,13 @@
 import random
 import ui
-import character
 import weapons
 import armors
 import items
 import powerups
+import random
 
 
 class Inventory():
-
-
     ITEMS_NAMES = items.CommonItemsPool.common_items_names + weapons.WeaponsPool.weapon_names + powerups.PowerUpsPool.powerups_names + armors.ArmorsPool.armor_names
 
     def __init__(self):
@@ -38,13 +36,13 @@ class Inventory():
 
     def print_table(self):
         column_widths = self.calculate_column_widths()
-
-        print()
+        blank_line = ""
+        ui.UI.print_message(blank_line)
         self.print_line(column_widths)
-        print('item name'.rjust(column_widths[0]) + ' | ' + 'count'.rjust(column_widths[1]))
+        ui.UI.print_message('item name'.rjust(column_widths[0]) + ' | ' + 'count'.rjust(column_widths[1]))
         self.print_line(column_widths)
         for item in self.items:
-            print(item.rjust(column_widths[0]) + ' | ' + str(self.items[item]).rjust(column_widths[1]))
+            ui.UI.print_message(item.rjust(column_widths[0]) + ' | ' + str(self.items[item]).rjust(column_widths[1]))
         self.print_line(column_widths)
 
     def calculate_column_widths(self):
@@ -56,5 +54,4 @@ class Inventory():
         return column_widths
 
     def print_line(self, column_widths):
-        print("-" * (sum(column_widths) + len(column_widths) + 1))
-
+        ui.UI.print_message("-" * (sum(column_widths) + len(column_widths) + 1))
