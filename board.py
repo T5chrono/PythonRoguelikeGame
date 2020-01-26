@@ -128,11 +128,12 @@ class Board():
         if_gate = self.tiles[index[0]][index[1]].tile_type == "GATE"
         return if_gate
 
+    def check_if_boss(self, index):
+        if_boss = self.tiles[index[0]][index[1]].tile_type == "BOSS"
+        return if_boss
+
     def make_tile_empty(self, index):
         self.tiles[index[0]][index[1]].tile_type = TileTypes.EMPTY.name
-
-    # def check_if_item(self):
-    #     return self.tiles[self.player_tile_position[0]][self.player_tile_position[1]].tile_type == "ITEM"
 
     def get_new_index_of_position(self, direction):
         index = self.player_tile_position.copy()

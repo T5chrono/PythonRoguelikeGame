@@ -1,37 +1,41 @@
 import colors
-import monster
 import random
 import util
 
 
-class Battle():
+class Boss:
+    def __init__(self):
+        self.name = "Managers and directors and CEO"
+        self.difficulty = 5
+        self.current_hp = 10
+        self.armor = 5
+        self.attack = 10
+        self.defeat_exp = 100
+        self.speed = 10
+        self.dodge_chance = 10
+
+
+class BossBattle:
 
     def __init__(self, player_character):
-        self.monster_initiative = 0
+        self.boss_initiative = 0
         self.character_initiative = 0
         self.player_character = player_character
-        self.monster = self.get_random_monster()
-        self.monster_hp = self.monster.current_hp
-
-    def get_random_monster(self):
-        random_monster = random.choice(monster.MonsterPool.monsters)
-        if random_monster.difficulty <= self.player_character.level:
-            return random_monster
-        else:
-            self.get_random_monster()
+        self.boss = Boss()
+        self.boss_hp = self.boss.current_hp
 
     def handle_fight_round(self):
-        self.monster_initiative += self.monster.speed
+        self.boss_initiative += self.boss.speed
         self.character_initiative += self.player_character.speed
 
-        if self.monster_initiative > self.character_initiative:
+        if self.boss_initiative > self.character_initiative:
             dodge_difficulty = random.randint(0, 100)
 
             if dodge_difficulty > self.player_character.dodge_chance:
-                monster_damage = self.calculate_damage(self.monster.attack, self.player_character.armor)
+                monster_damage = self.calculate_damage(self.boss.attack, self.player_character.armor)
                 self.player_character.current_hp -= monster_damage
                 print("{} inflicted {} damage. {} has {} HP left".format(
-                    self.monster.name, colors.ENEMY + str(monster_damage) + colors.RESET, self.player_character.name, colors.PLAYER + str(self.player_character.current_hp) + colors.RESET
+                    self.boss.name, colors.ENEMY + str(monster_damage) + colors.RESET, self.player_character.name, colors.PLAYER + str(self.player_character.current_hp) + colors.RESET
                     ))
             else:
                 print("{} dodged the attack!".format(colors.PLAYER + str(self.player_character.name) + colors.RESET))
@@ -39,7 +43,7 @@ class Battle():
             player_alive = self.check_if_player_alive()
             return player_alive
 
-        elif self.monster_initiative <= self.character_initiative:
+        elif self.boss_initiative <= self.character_initiative:
             print("Your turn! You want to run " + colors.ACTION + "(r)" + colors.RESET + " or attack " + colors.ACTION + "(a)" + colors.RESET + "?")
             player_choice = ""
 
@@ -47,21 +51,21 @@ class Battle():
                 player_choice = util.key_pressed()
 
                 if player_choice == "r":
-                    print("{} escaped safely from {}".format(colors.PLAYER + str(self.player_character.name) + colors.RESET, self.monster.name))
+                    print("{} escaped safely from {}".format(colors.PLAYER + str(self.player_character.name) + colors.RESET, self.boss.name))
                     return False
 
                 else:
                     dodge_difficulty = random.randint(0, 100)
-                    if dodge_difficulty > self.monster.dodge_chance:
-                        player_damage = self.calculate_damage(self.player_character.attack, self.monster.armor)
-                        self.monster_hp -= player_damage
+                    if dodge_difficulty > self.boss.dodge_chance:
+                        player_damage = self.calculate_damage(self.player_character.attack, self.boss.armor)
+                        self.boss_hp -= player_damage
                         print("{} inflicted {} damage. {} has {} HP left".format(
-                            self.player_character.name, colors.PLAYER + str(player_damage) + colors.RESET, self.monster.name, colors.ENEMY + str(self.monster_hp) + colors.RESET
+                            self.player_character.name, colors.PLAYER + str(player_damage) + colors.RESET, self.boss.name, colors.ENEMY + str(self.boss_hp) + colors.RESET
                             ))
                     else:
-                        print("{} dodged the attack".format(colors.ENEMY + str(self.monster.name) + colors.RESET))
+                        print("{} dodged the attack".format(colors.ENEMY + str(self.boss.name) + colors.RESET))
 
-                    self.monster_initiative += self.monster.speed
+                    self.boss_initiative += self.boss.speed
                     monster_alive = self.check_if_monster_alive()
                     return monster_alive
 
@@ -73,11 +77,11 @@ class Battle():
             return False
 
     def check_if_monster_alive(self):
-        if self.monster_hp > 0:
+        if self.boss_hp > 0:
             return True
         else:
-            print("Your character killed {} and gained {} EXP!".format(colors.PLAYER + str(self.monster.name) + colors.RESET, colors.PLAYER + str(self.monster.defeat_exp) + colors.RESET))
-            self.player_character.current_experience += self.monster.defeat_exp
+            print("Your character killed {} and gained {} EXP!".format(colors.PLAYER + str(self.boss.name) + colors.RESET, colors.PLAYER + str(self.boss.defeat_exp) + colors.RESET))
+            self.player_character.current_experience += self.boss.defeat_exp
             return False
 
     def calculate_damage(self, attack, armor):

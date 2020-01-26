@@ -21,6 +21,9 @@ class UI():
         print(f"\n{colors.INFO}{info_message}{colors.RESET}{colors.ACTION}")
         print(*args, sep=colors.RESET + ", " + colors.ACTION, end=colors.RESET + "\n")
 
+    def print_message(self, something):
+        print(something)
+
     def display_dict_details(self, info_message, **kwargs):
         print(info_message)
         for k, v in kwargs.items():
@@ -45,6 +48,7 @@ class GameUI():
     NO_ITEM_CHOSE = "You cannot do that with nothing."
     EXAMINE_ITEM = "What item would you like to examine?: "
     EMPTY_TILE = "There is nothing here."
+    SAY_QUESTION = "What do you want to say?: "
 
     def __init__(self, game):
         self.game_engine = game

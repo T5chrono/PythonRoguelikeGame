@@ -2,6 +2,7 @@ import board
 import util
 import battle
 import character
+import boss
 import ui
 import colors
 from weapons_armor_items import weapons, weapon_names, armors, armor_names, powerups, powerups_names, common_items, \
@@ -27,6 +28,7 @@ class Game():
     PLAYER_STATS = "."
 
     def __init__(self):
+        self.boss = boss.Boss()
         self.is_running = True
         self.player_character = character.Character()
         self.UI = ui.GameUI(self)
@@ -67,6 +69,8 @@ class Game():
             self.player_character.ui.display_dict_details("\n Player stats:\n", **self.player_character.__dict__)
         elif player_move == Game.SUPPORTED_KEYS["Quit"]:
             self.is_running = False
+        elif player_move == "f":
+            self.say()
 
     def get_board_dimension(self, dimension):
 
@@ -99,12 +103,16 @@ class Game():
                 elif self.board.check_if_gate(new_position):
                     user_input = input(ui.GameUI.GATE_INFO)
                     if user_input.lower() == 'y':
-                        if self.board.board_level < 2:
+                        if self.board.board_level <= 1:
                             self.board.generate_new_board()
                             util.clear_screen()
                             self.board.display_board()
                         else:
                             self.board.generate_boss_level()
+
+                elif self.board.check_if_boss(new_position):
+                    print("Boss is here")
+                    self.handle_boss_battle()
 
                 else:
                     self.move(new_position)
@@ -224,3 +232,74 @@ class Game():
                 self.board.player_tile_position[1]].tile_type = "EMPTY"
         else:
             self.UI.display_error_info("empty tile")
+
+    def say(self):
+        user_input = input(ui.UI.SAY_QUESTION)
+        if user_input == "Fork yourself":
+            pass
+        else:
+            print("No one cares!")
+
+    def handle_boss_battle(self):
+        question1 = "Aaa, it's you! Where is my report.\n 1. My dog ate it.\n 2. I will bring it tomorrow.\n " \
+                    "3. I don't care about your report! Let's fight.\n "
+        question2 = "I need it now!\n 1. Time is just a construct.\n 2. Maybe I can offer you something else?\n " \
+                    "3. I don't care about your report. Let's fight.\n "
+        question3 = "What do you have in mind?\n 1. Let's just forget about it? \n 2. Maybe you want a cake?\n " \
+                    "3. I don't care about your report. Let's fight.\n "
+        ui.print_message(question1)
+        user_input = self.user_answer()
+        if user_input == '1':
+            self.you_are_fired()
+        elif user_input == '2':
+            ui.print_message(question2)
+            user_input = self.user_answer()
+            if user_input == '1':
+                self.you_are_fired()
+            elif user_input == '2':
+                ui.print_message(question3)
+                user_input = self.user_answer()
+                if user_input == '1':
+                    self.you_are_fired()
+                elif user_input == '2':
+                    self.you_get_a_promotion()
+                elif user_input == '3':
+                    self.fight_with_boss()
+                else:
+                    self.remind_player_to_say_something()
+            elif user_input == '3':
+                self.fight_with_boss()
+            else:
+                self.remind_player_to_say_something()
+        elif user_input == '3':
+            self.fight_with_boss()
+        else:
+            self.remind_player_to_say_something()
+
+    def user_answer(self):
+        return input("What is your answer?: ")
+
+    def remind_player_to_say_something(self):
+        ui.print_message("You have to answer somehow ('1', '2' or '3')")
+
+    def you_are_fired(self):
+        ui.print_message("You are fired!!! ")
+        # TODO: negative end game screen
+
+    def you_get_a_promotion(self):
+        ui.print_message("Well I guess it is ok.")
+        # TODO positive end game screen
+
+    def fight_with_boss(self):
+        boss_fight = boss.BossBattle(self.player_character)
+        self.UI.display_monster_info(self.boss.name)
+        is_fighting = True
+
+        while is_fighting:
+            is_fighting = boss_fight.handle_fight_round()
+            self.is_running = (self.player_character.current_hp > 0)
+
+        if boss_fight.boss_hp < 1:
+            self.you_get_a_promotion()
+        if self.is_running:
+            self.UI.display_board_after_key_press()
