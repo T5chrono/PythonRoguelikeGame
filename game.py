@@ -110,6 +110,8 @@ class Game():
                             self.board.display_board()
                         else:
                             self.board.generate_boss_level()
+                            util.clear_screen()
+                            self.board.display_board()
 
                 elif self.board.check_if_boss(new_position):
                     print("Boss is here")
