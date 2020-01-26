@@ -1,8 +1,12 @@
-from weapons_armor_items import weapons, armors, powerups
 import colors
 import player_races_and_classes
 import util
 import ui
+import inventory
+import weapons
+import armors
+import items
+import powerups
 
 
 class Character:
@@ -12,7 +16,7 @@ class Character:
         self.name = ""
         self.character_class = ""
         self.character_race = ""
-        self.inventory = {}
+        self.inventory = inventory.Inventory()
         # LEVELING UP
         self.level = 1
         self.points = 0
@@ -28,14 +32,14 @@ class Character:
         self.max_mana = 10
         self.current_mana = 10
         # ATTACK
-        self.weapon = weapons[1]
+        self.weapon = weapons.WeaponsPool.weapons[1]
         self.attack = self.strength + self.weapon.attack
         # DEFENCE
-        self.head = armors[0]
-        self.torso = armors[1]
-        self.arms = armors[2]
-        self.legs = armors[3]
-        self.shield = armors[4]
+        self.head = armors.ArmorsPool.armors[0]
+        self.torso = armors.ArmorsPool.armors[1]
+        self.arms = armors.ArmorsPool.armors[2]
+        self.legs = armors.ArmorsPool.armors[3]
+        self.shield = armors.ArmorsPool.armors[4]
         self.armor = self.head.armor + self.torso.armor + self.arms.armor + self.legs.armor + self.shield.armor
         # ADVANCED STATS
         self.speed = self.dexterity * 7
@@ -128,18 +132,18 @@ class Character:
         self.dodge_chance = int(self.dexterity - self.armor // 2)
 
     def heal_hp(self):
-        new_hp = self.current_hp + powerups[0].powerup
-        if new_hp <= 10:
+        new_hp = self.current_hp + powerups.PowerUpsPool.powerups[0].powerup
+        if new_hp <= self.max_hp:
             self.current_hp = new_hp
         else:
-            self.current_hp = 10
+            self.current_hp = self.max_hp
 
     def heal_mana(self):
-        new_mana = self.current_mana + powerups[1].powerup
-        if new_mana <= 10:
+        new_mana = self.current_mana + powerups.PowerUpsPool.powerups[1].powerup
+        if new_mana <= self.max_mana:
             self.current_mana = new_mana
         else:
-            self.current_mana = 10
+            self.current_mana = self.max_mana
 
     def correct_current_hp_to_max(self):
         if self.current_hp > self.max_hp:

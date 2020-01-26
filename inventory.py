@@ -1,87 +1,60 @@
 import random
-
 import ui
 import character
-from weapons_armor_items import weapon_names, armor_names, powerups_names, common_items_names
+import weapons
+import armors
+import items
+import powerups
 
 
-ITEMS = common_items_names + weapon_names + armor_names + powerups_names
+class Inventory():
 
 
-def random_item(lst):
-    """Returns random item from the list -> ITEMS"""
-    return [random.choice(lst)]
+    ITEMS_NAMES = items.CommonItemsPool.common_items_names + weapons.WeaponsPool.weapon_names + powerups.PowerUpsPool.powerups_names + armors.ArmorsPool.armor_names
+
+    def __init__(self):
+        self.items = {}
+        self.equipped_items = {}
+
+    def get_random_item(self):
+        return random.choice(Inventory.ITEMS_NAMES)
 
 
-def add_to_inventory(inventory, added_items):
-    """Add to the inventory dictionary a list of items from added_items."""
-    ui.display_added_item(*added_items)
-    for item in added_items:
-        if item in inventory.keys():
-            inventory.update({item: inventory[item] + 1})
+    def add_to_inventory(self):
+        item = self.get_random_item()
+        ui.display_added_item(item)
+
+        if item in self.items.keys():
+            self.items.update({item: self.items[item] + 1})
         else:
-            inventory.update({item: 1})
-    return inventory
+            self.items.update({item: 1})
+  
+    def remove_from_inventory(self, removed_item):
+        if removed_item in self.items.keys():
+            self.items.update({removed_item: self.items[removed_item] - 1})
+            if self.items[removed_item] <= 0:
+                del self.items[removed_item]
+                    
 
+    def print_table(self):
+        column_widths = self.calculate_column_widths()
 
-def remove_from_inventory(inventory, removed_items):
-    """Remove from the inventory dictionary a list of items from removed_items."""
-    for item in removed_items:
-        if item in inventory.keys():
-            inventory.update({item: inventory[item] - 1})
-            if inventory[item] <= 0:
-                del inventory[item]
-    return inventory
+        print()
+        self.print_line(column_widths)
+        print('item name'.rjust(column_widths[0]) + ' | ' + 'count'.rjust(column_widths[1]))
+        self.print_line(column_widths)
+        for item in self.items:
+            print(item.rjust(column_widths[0]) + ' | ' + str(self.items[item]).rjust(column_widths[1]))
+        self.print_line(column_widths)
 
+    def calculate_column_widths(self):
+        self.items.update({'item name': 'count'})
+        key_lengths = [len(key) for key in self.items.keys()]
+        value_lengths = [len(str(value)) for value in self.items.values()]
+        column_widths = [max(key_lengths), max(value_lengths)]
+        del self.items['item name']
+        return column_widths
 
-def print_table(inventory, order='empty'):
-    """
-    Display the contents of the inventory in an ordered, well-organized table with
-    each column right-aligned.
-    """
-    column_widths = calculate_column_widths(inventory)
-    inventory = sort_dictionary(inventory, order)
+    def print_line(self, column_widths):
+        print("-" * (sum(column_widths) + len(column_widths) + 1))
 
-    print()
-    print_line(column_widths)
-    print('item name'.rjust(column_widths[0]) + ' | ' + 'count'.rjust(column_widths[1]))
-    print_line(column_widths)
-    for item in inventory:
-        print(item.rjust(column_widths[0]) + ' | ' + str(inventory[item]).rjust(column_widths[1]))
-    print_line(column_widths)
-
-
-# ----- Helper functions for print_table START-----
-def calculate_column_widths(inventory):
-    """ Calculates the perfect widths of columns for printing purposes. """
-    inventory.update({'item name': 'count'})
-    key_lengths = [len(key) for key in inventory.keys()]
-    value_lengths = [len(str(value)) for value in inventory.values()]
-    column_widths = [max(key_lengths), max(value_lengths)]
-    del inventory['item name']
-    return column_widths
-
-
-def sort_dictionary(inventory, order):
-    """ Sorts the dictionary in a given order. """
-    if order == 'count,asc':
-        inventory = {k: v for k, v in sorted(inventory.items(), key=lambda inv_item: inv_item[1])}
-    elif order == 'count,desc':
-        inventory = {k: v for k, v in sorted(inventory.items(), key=lambda inv_item: inv_item[1], reverse=True)}
-    return inventory
-
-
-def print_line(column_widths):
-    """ Prints straight line which length corresponds to column widths. """
-    print("-" * (sum(column_widths) + len(column_widths) + 1))
-# ----- Helper functions for print_table END -----
-
-
-def main():
-    Keanu = character.Character("Keanu")
-    print(Keanu.inventory)
-    print_table(Keanu.inventory)
-
-
-if __name__ == "__main__":
-    main()

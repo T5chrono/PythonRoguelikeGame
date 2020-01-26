@@ -119,6 +119,9 @@ class Board():
 
     def check_if_item(self, new_index):
         return self.tiles[new_index[0]][new_index[1]].tile_type == "ITEM"
+    
+    def check_if_current_tile_is_item(self):
+        return self.tiles[self.player_tile_position[0]][self.player_tile_position[1]].tile_type == "ITEM"
 
     def check_if_event(self, index):
         if_event = self.tiles[index[0]][index[1]].tile_type == "EVENT"
@@ -247,9 +250,13 @@ class Board():
     def place_random_monster(self):
         chances_to_spawn_monster = 10
         if randint(0, 100) < chances_to_spawn_monster:
-            monster_index = self.get_random_passable_position()
-            self.tiles[monster_index[0]][monster_index[1]].tile_type = "MONSTER"
-            print(f"\n{colors.MONSTER}Oh no!! A new monster has arrived!{colors.RESET}")
+            monster_index_corect = False
+            while not monster_index_corect:
+                 monster_index = self.get_random_passable_position()
+                 if self.tiles[monster_index[0]][monster_index[1]].tile_type == "EMPTY":
+                    self.tiles[monster_index[0]][monster_index[1]].tile_type = "MONSTER"
+                    print(f"\n{colors.MONSTER}Oh no!! A new monster has arrived!{colors.RESET}")
+                    monster_index_corect = True
 
     def place_item(self, new_position):
         chances_to_spawn_item = 20

@@ -2,14 +2,14 @@ import board
 import util
 import battle
 import character
-import boss
-import ui
 import colors
-from weapons_armor_items import weapons, weapon_names, armors, armor_names, powerups, powerups_names, common_items, \
-    common_items_names
+import ui
 import events
-from inventory import print_table, add_to_inventory, remove_from_inventory, random_item, ITEMS
-
+import inventory
+import weapons
+import armors
+import items
+import powerups
 
 class Game():
 
@@ -116,7 +116,6 @@ class Game():
 
                 else:
                     self.move(new_position)
-                    self.board.place_random_monster()
 
         except IndexError:
             self.UI.display_board()
@@ -128,6 +127,7 @@ class Game():
         if self.board.is_boss:
             self.board.move_boss()
         print(self.board.tiles[new_position[0]][new_position[1]].descirption)
+        self.board.place_random_monster()
 
     def handle_event_effects(self, new_position):
         event = events.Event.get_random_event()
@@ -160,47 +160,54 @@ class Game():
 
     def get_inventory(self):
         self.UI.display_board()
-        print_table(self.player_character.inventory)
+        self.player_character.inventory.print_table()
 
     def equip(self):
         user_input = input(ui.GameUI.EQUIP_QUESTION)
-        if user_input in weapon_names and user_input in self.player_character.inventory.keys():
-            for i in range(len(weapon_names)):
-                if user_input == weapon_names[i]:
-                    self.player_character.weapon = weapons[i]
+        if user_input in weapons.WeaponsPool.weapon_names and user_input in self.player_character.inventory.items.keys():
+            for i in range(len(weapons.WeaponsPool.weapon_names)):
+                if user_input == weapons.WeaponsPool.weapon_names[i]:
+                    self.player_character.weapon = weapons.WeaponsPool.weapons[i]
                     self.player_character.update_attack()
-        elif user_input in armor_names and user_input in self.player_character.inventory.keys():
-            for i in range(len(armor_names)):
-                if user_input == armor_names[i]:
-                    if armors[i].body_part == "head":
-                        self.player_character.head = armors[i]
-                    elif armors[i].body_part == "torso":
-                        self.player_character.torso = armors[i]
-                    elif armors[i].body_part == "arms":
-                        self.player_character.arms = armors[i]
-                    elif armors[i].body_part == "legs":
-                        self.player_character.legs = armors[i]
-                    elif armors[i].body_part == "shield":
-                        self.player_character.shield = armors[i]
+        elif user_input in armors.ArmorsPool.armor_names and user_input in self.player_character.inventory.items.keys():
+            for i in range(len(armors.ArmorsPool.armor_names)):
+                if user_input == armors.ArmorsPool.armor_names[i]:
+                    if armors.ArmorsPool.armors[i].body_part == "head":
+                        self.player_character.head = armors.ArmorsPool.armors[i]
+                    elif armors.ArmorsPool.armors[i].body_part == "torso":
+                        self.player_character.torso = armors.ArmorsPool.armors[i]
+                    elif armors.ArmorsPool.armors[i].body_part == "arms":
+                        self.player_character.arms = armors.ArmorsPool.armors[i]
+                    elif armors.ArmorsPool.armors[i].body_part == "legs":
+                        self.player_character.legs = armors.ArmorsPool.armors[i]
+                    elif armors.ArmorsPool.armors[i].body_part == "shield":
+                        self.player_character.shield = armors.ArmorsPool.armors[i]
                 self.player_character.update_armor()
         else:
             self.UI.display_error_info("wrong item")
 
     def use_item(self):
+<<<<<<< Updated upstream
         user_input = input(ui.GameUI.USE_QUESTION)
         if user_input in self.player_character.inventory.keys():
+=======
+        user_input = input(ui.UI.USE_QUESTION)
+        if user_input in self.player_character.inventory.items.keys():
+>>>>>>> Stashed changes
             if user_input == "Health potion":
-                remove_from_inventory(self.player_character.inventory, ["Health potion"])
+                self.player_character.inventory.remove_from_inventory(user_input)
                 self.player_character.heal_hp()
-        elif user_input == "Mana potion":
-            remove_from_inventory(self.player_character.inventory, ["Mana potion"])
-            self.player_character.heal_mana()
+            elif user_input == "Mana potion":
+                self.player_character.inventory.remove_from_inventory(user_input)
+                self.player_character.heal_mana()
+            else:
+                self.UI.display_error_info("wrong item")
         elif not user_input:
             self.UI.display_error_info("no item")
-        else:
-            self.UI.display_error_info("wrong item")
+        
 
     def examine_item(self):
+<<<<<<< Updated upstream
         user_input = input(ui.GameUI.EXAMINE_ITEM)
         if user_input in self.player_character.inventory.keys():
             if user_input in weapon_names:
@@ -219,17 +226,35 @@ class Game():
                 for i in range(len(common_items_names)):
                     if user_input == common_items_names[i]:
                         print(common_items[i].status)
+=======
+        user_input = input(ui.UI.EXAMINE_ITEM)
+        if user_input in self.player_character.inventory.items.keys():
+            if user_input in weapons.WeaponsPool.weapon_names:
+                for i in range(len(weapons.WeaponsPool.weapon_names)):
+                    if user_input == weapons.WeaponsPool.weapon_names[i]:
+                        print(f"{weapons.WeaponsPool.weapons[i].status} (Attack: + {weapons.WeaponsPool.weapons[i].attack}).")
+            elif user_input in armors.ArmorsPool.armor_names:
+                for i in range(len(armors.ArmorsPool.armor_names)):
+                    if user_input == armors.ArmorsPool.armor_names[i]:
+                        print(f"{armors.ArmorsPool.armors[i].status} (Armor: + {armors.ArmorsPool.armors[i].armor}).")
+            elif user_input in powerups.PowerUpsPool.powerups_names:
+                for i in range(len(powerups.PowerUpsPool.powerups_names)):
+                    if user_input == powerups.PowerUpsPool.powerups_names[i]:
+                        print(powerups.PowerUpsPool.powerups[i].status)
+            elif user_input in items.CommonItemsPool.common_items_names:
+                for i in range(len(items.CommonItemsPool.common_items_names)):
+                    if user_input == items.CommonItemsPool.common_items_names[i]:
+                        print(items.CommonItemsPool.common_items[i].status)
+>>>>>>> Stashed changes
         elif not user_input:
             self.UI.display_error_info("no item")
         else:
             self.UI.display_error_info("wrong item")
 
     def pick_up_something(self):
-        if self.board.tiles[self.board.player_tile_position[0]][
-            self.board.player_tile_position[1]].tile_type == "ITEM":
-            add_to_inventory(self.player_character.inventory, random_item(ITEMS))
-            self.board.tiles[self.board.player_tile_position[0]][
-                self.board.player_tile_position[1]].tile_type = "EMPTY"
+        if self.board.check_if_current_tile_is_item():
+            self.player_character.inventory.add_to_inventory()
+            self.board.make_tile_empty(self.board.player_tile_position)
         else:
             self.UI.display_error_info("empty tile")
 
